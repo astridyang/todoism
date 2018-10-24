@@ -1,0 +1,13 @@
+:root{
+  --font-family-sans-serif: "Segoe UI", "Source Sans Pro", Calibri, Candara, Arial, sans-serif;
+  --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --mainWidth:1000px;
+  --navHeight:40px;
+}
+a{
+  text-decoration: none;
+}
+
+.dangerous{
+  color: red;
+}
