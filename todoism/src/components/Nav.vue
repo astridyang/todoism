@@ -1,8 +1,8 @@
 <template>
     <div class="td_nav">
-        <div class="td_main">
+        <div class="wrap_main">
             <router-link to="/">Home</router-link>
-            <router-link to="/record">Go to record</router-link>
+            <span class="float-right"><router-link to="/record">Go to record</router-link></span>
         </div>
     </div>
 </template>
@@ -14,7 +14,13 @@
 <style lang="scss">
     .td_nav {
         height: var(--navHeight);
-
+        background: var(--pink);
+        color: var(--white);
+        a{
+            line-height:var(--navHeight);
+            color: var(--white);
+        }
     }
+
 
 </style>

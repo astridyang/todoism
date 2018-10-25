@@ -1,5 +1,3 @@
-# todoism
-
 ## Project setup
 ```
 yarn install

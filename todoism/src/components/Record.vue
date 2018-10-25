@@ -1,20 +1,21 @@
 <template>
     <div class="td_record">
         <div class="record_table">
-            <button>New record</button>
+            <div class="text-right"><button @click="addRecord">New record</button></div>
             <form action="">
-                <div class="record_item">
-                    <span><input type="text"></span>
-                    <span><input type="text"></span>
+                <!-- eslint-disable -->
+                <div class="form_item" v-for="(record, index) in records">
+                    <span><input type="text" class="time_span" placeholder="time span" v-model="record.time_span" :key="record.id"></span>
+                    <span><input type="text" placeholder="task" v-model="record.task" :key="record.id"></span>
                     <span>
-                    <select name="" id="">
-                        <option value="">one</option>
-                        <option value="">two</option>
+                    <select name="category" id="" v-model="record.cate">
+                        <option value="0">select category</option>
+                        <option :value="cate.id" :key="cate.id" v-for="cate in categories">{{cate.name}}</option>
                     </select>
-                        <a href="javascript:;" class="dangerous">Delete</a>
+                        <a href="javascript:;" class="dangerous" @click="deleteRecord(index)" v-if="records.length>1">delete</a>
                 </span>
                 </div>
-                <div class="record_item">
+                <div class="form_item">
                     <button>submit</button>
                 </div>
             </form>
@@ -22,10 +23,44 @@
     </div>
 </template>
 <script>
+
     export default{
-        name:'Record'
+        name:'Record',
+        data () {
+            return {
+                records:[{id:1,time_span:'',task:'',cate:2},{id:2,time_span:'',task:'',cate:1}],
+                categories:[]
+            }
+        },
+        mounted (){
+            this.getCategories();
+        },
+        methods: {
+            addRecord () {
+                this.records.push({id:0,time_span:'',task:'',cate:0})
+            },
+            deleteRecord (idx) {
+                this.records.splice(idx,1)
+            },
+            getCategories () {
+                /*this.$http.get("/categories").then(res=>{
+                    this.categories = res.data.categories
+                })*/
+                this.categories = this.fake.categories
+            }
+        }
     }
 </script>
-<style>
+<style lang="scss">
+    .td_record{
+        .form_item{
+            input,select{
+                margin-right: 10px;
+            }
+            .time_span{
+                width: 120px;
+            }
 
+        }
+    }
 </style>

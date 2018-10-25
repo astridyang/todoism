@@ -1,10 +1,13 @@
 <template>
   <div id="app">
     <Nav/>
-    <div class="td_main">
+    <div class="wrap_main">
       <!--<img alt="Vue logo" src="./assets/logo.png">-->
-
-      <router-view></router-view>
+      <p>Welcome, today is </p>
+      <p>You got points today.</p>
+      <div class="td_main">
+        <router-view></router-view>
+      </div>
     </div>
   </div>
 </template>
@@ -30,8 +33,11 @@ export default {
   -moz-osx-font-smoothing: grayscale;
 
 }
-.td_main{
+.wrap_main{
   width: var(--mainWidth);
   margin:0 auto;
+}
+.td_main{
+  padding:30px 0;
 }
 </style>

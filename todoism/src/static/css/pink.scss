@@ -1,3 +1,7 @@
 :root{
   --pink:pink;
 }
+button {
+  background: var(--pink);
+  color: var(--white);
+}
