@@ -113,3 +113,5 @@ logs/*
 /todoism/node_modules
 .idea
 /todoserver/notes.md
+/todoserver/api.md
+/todoserver/.flaskenv

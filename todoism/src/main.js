@@ -5,7 +5,7 @@ import Login from './components/Login.vue'
 import Record from './components/Record.vue'
 import axios from 'axios'
 
-// axios.defaults.baseURL = 'http://todoism.com/api'
+axios.defaults.baseURL = 'http://localhost:5000/api/v1'
 
 
 Vue.config.productionTip = false

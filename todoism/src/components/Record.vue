@@ -18,6 +18,7 @@
                 <div class="form_item">
                     <button>submit</button>
                 </div>
+                {{message}}
             </form>
         </div>
     </div>
@@ -29,7 +30,8 @@
         data () {
             return {
                 records:[{id:1,time_span:'',task:'',cate:2},{id:2,time_span:'',task:'',cate:1}],
-                categories:[]
+                categories:[],
+                message:''
             }
         },
         mounted (){
@@ -43,9 +45,9 @@
                 this.records.splice(idx,1)
             },
             getCategories () {
-                /*this.$http.get("/categories").then(res=>{
-                    this.categories = res.data.categories
-                })*/
+                this.$http.get("/").then(res=>{
+                    this.message = res.data.message
+                })
             }
         }
     }
