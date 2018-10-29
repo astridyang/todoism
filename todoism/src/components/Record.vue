@@ -46,7 +46,6 @@
                 /*this.$http.get("/categories").then(res=>{
                     this.categories = res.data.categories
                 })*/
-                this.categories = this.fake.categories
             }
         }
     }

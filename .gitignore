@@ -112,3 +112,4 @@ logs/*
 /notes.md
 /todoism/node_modules
 .idea
+/todoserver/notes.md
