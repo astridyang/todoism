@@ -22,8 +22,7 @@ class BaseConfig(object):
     SECRET_KEY = os.getenv('SECRET_KEY', 'dev key')
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    TODOISM_POST_PER_PAGE = 10
-
+    TODOISM_ITEM_PER_PAGE = 10
 
 
 class DevelopmentConfig(BaseConfig):

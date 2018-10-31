@@ -17,10 +17,10 @@ class Admin(db.Model):
 
 class Today(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow, index=True)
+    score = db.Column(db.Integer)
 
     missions = db.relationship('Mission', back_populates='day')
-    scores = db.relationship('Score', back_populates='day')
 
 
 class Mission(db.Model):
@@ -45,7 +45,7 @@ class MissionCategory(db.Model):
 class TodoList(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), unique=True)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow, index=True)
 
     tasks = db.relationship('Task', back_populates='todo_list')
 
@@ -59,9 +59,5 @@ class Task(db.Model):
     todo_list = db.relationship('TodoList', back_populates='tasks')
 
 
-class Score(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    score_id = db.Column(db.Integer)
-    score = db.Column(db.Integer)
 
 

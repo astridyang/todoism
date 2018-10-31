@@ -66,7 +66,7 @@ def register_commands(app):
         click.echo('Done.')
 
     @app.cli.command()
-    @click.option('--todo_list', default=10, help='Quantity of todo_lists, default is 10.')
+    @click.option('--todo_list', default=20, help='Quantity of todo_lists, default is 10.')
     def forge(todo_list):
         """Generate fake data."""
         from todoism.fakes import fake_lists
