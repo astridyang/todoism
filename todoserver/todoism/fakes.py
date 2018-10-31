@@ -8,7 +8,7 @@ from faker import Faker
 fake = Faker()
 
 
-def fake_todo_lists(count=20):
+def fake_todo_lists(count=12):
     for i in range(count):
         todo_list = TodoList(name=fake.word())
         db.session.add(todo_list)
@@ -20,8 +20,11 @@ def fake_todo_lists(count=20):
 
 def fake_tasks(count=50):
     for i in range(count):
-        status = 0
-        for j in range(3):
-            status = j
-        task = Task(content=fake.sentence(), status=status)
+        task = Task(
+            content=fake.sentence(),
+            status=random.randint(1, 3),
+            todo_list=TodoList.query.get(random.randint(1, TodoList.query.count()))
+        )
+        db.session.add(task)
+        db.session.commit()
 

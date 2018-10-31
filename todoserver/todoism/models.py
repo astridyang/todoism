@@ -55,7 +55,7 @@ class Task(db.Model):
     content = db.Column(db.String(50))
     status = db.Column(db.Integer, default=0)
 
-    list_id = db.Column(db.Integer, db.ForeignKey('todo_list.id'))
+    todo_list_id = db.Column(db.Integer, db.ForeignKey('todo_list.id'))
     todo_list = db.relationship('TodoList', back_populates='tasks')
 
 

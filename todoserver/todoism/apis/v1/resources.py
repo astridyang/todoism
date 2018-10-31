@@ -3,7 +3,7 @@ from todoism.apis.v1 import api_v1
 from todoism.apis.v1.errors import api_abort
 from todoism.models import Admin, TodoList
 from todoism.apis.v1.auth import generate_token, auth_required
-from todoism.apis.v1.schemas import todo_lists_schema
+from todoism.apis.v1.schemas import todo_list_schema, todo_lists_schema
 from flask.views import MethodView
 
 
@@ -42,8 +42,9 @@ class AuthTokenAPI(MethodView):
 
 
 class TodoListAPI(MethodView):
-    def get(self):
-
+    def get(self, todo_list_id):
+        todo_list = TodoList.query.get_or_404(todo_list_id)
+        return jsonify(todo_list_schema(todo_list))
 
 
 class TodoListsAPI(MethodView):
@@ -67,6 +68,8 @@ class TodoListsAPI(MethodView):
 api_v1.add_url_rule('/', view_func=IndexAPI.as_view('index'), methods=['GET'])
 api_v1.add_url_rule('/oauth/token', view_func=AuthTokenAPI.as_view('token'), methods=['POST'])
 api_v1.add_url_rule('/user/todo_lists', view_func=TodoListsAPI.as_view('todo_lists'), methods=['GET', 'POST'])
+api_v1.add_url_rule('/user/todo_list/<int:todo_list_id>', view_func=TodoListAPI.as_view('todo_list'),
+                    methods=['GET', 'POST', 'DELETE', 'PATCH'])
 
 
 

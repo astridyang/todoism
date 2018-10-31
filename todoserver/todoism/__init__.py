@@ -66,16 +66,20 @@ def register_commands(app):
         click.echo('Done.')
 
     @app.cli.command()
-    @click.option('--todo_list', default=20, help='Quantity of todo_lists, default is 10.')
-    def forge(todo_list):
+    @click.option('--todo_lists', default=12, help='Quantity of todo_lists, default is 12.')
+    @click.option('--tasks', default=50, help='Quantity of tasks, default is 50.')
+    def forge(todo_lists, tasks):
         """Generate fake data."""
-        from todoism.fakes import fake_lists
+        from todoism.fakes import fake_todo_lists, fake_tasks
 
         db.drop_all()
         db.create_all()
 
-        click.echo('Generating %d todo_lists...' % todo_list)
-        fake_lists(todo_list)
+        click.echo('Generating %d todo_lists...' % todo_lists)
+        fake_todo_lists(todo_lists)
+
+        click.echo('Generating %d tasks...' % tasks)
+        fake_tasks(tasks)
 
         click.echo('Done')
 
@@ -83,6 +87,6 @@ def register_commands(app):
 def register_shell_context(app):
     @app.shell_context_processor
     def make_shell_context():
-        return dict(db=db, TodoList=TodoList)
+        return dict(db=db, TodoList=TodoList, Task=Task)
 
 
