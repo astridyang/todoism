@@ -1,24 +1,23 @@
 from flask import url_for
 
 
-def todo_list_schema(todo_list):
+def category_schema(category):
     return {
-        'id': todo_list.id,
-        'self': url_for('.todo_list', todo_list_id=todo_list.id, _external=True),
-        'kink': 'TodoList',
-        'name': todo_list.name,
-        'tasks': todo_list.tasks
+        'id': category.id,
+        'self': url_for('.category', category_id=category.id, _external=True),
+        'kink': 'Category',
+        'name': category.name,
     }
 
 
-def todo_lists_schema(todo_lists, current, prev, next, pagination):
+def categorise_schema(categorise, current, prev, next, pagination):
     return {
         'self': current,
-        'kind': 'TodoListCollection',
-        'items': [todo_list_schema(todo_list) for todo_list in todo_lists],
+        'kind': 'CategoryCollection',
+        'items': [category_schema(category) for category in categorise],
         'prev': prev,
         'next': next,
-        'last': url_for('.todo_lists', page=pagination.pages, _external=True),
-        'first': url_for('.todo_lists', page=1, _external=True),
+        'last': url_for('.categorise', page=pagination.pages, _external=True),
+        'first': url_for('.categorise', page=1, _external=True),
         'count': pagination.total
     }

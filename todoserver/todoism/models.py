@@ -1,62 +1,64 @@
 from datetime import datetime
 from todoism.extensions import db
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
 
 
-class Admin(db.Model):
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(20))
+    username = db.Column(db.String(20))
     password_hash = db.Column(db.String(128))
+
+    categorise = db.relationship('Category', back_populates='author', cascade='all')
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
     def validate_password(self, password):
-        check_password_hash(self.password_hash, password)
+        return check_password_hash(self.password_hash, password)
 
 
-class Today(db.Model):
+class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow, index=True)
-    score = db.Column(db.Integer)
+    name = db.Column(db.String(20))
 
-    missions = db.relationship('Mission', back_populates='day')
+    plans = db.relationship('Plan', back_populates='category')
+
+    author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    author = db.relationship('User', back_populates='categorise')
+
+    def delete(self):
+        default_category = Category.query.get(1)
+        plans = self.plans[:]
+        for plan in plans:
+            plan.category = default_category
+        db.session.delete(self)
+        db.session.commit()
+
+
+class Plan(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    # TODO index
+    created_at = db.Column(db.DateTime, default=datetime.utcnow, index=True)
+    name = db.Column(db.String(30))
+
+    category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
+    category = db.relationship('Category', back_populates='plans')
+    missions = db.relationship('Mission', back_populates='plan', cascade='all')
 
 
 class Mission(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    timespan = db.Column(db.String(20))
+    time_span = db.Column(db.String(20))
     content = db.Column(db.String(50))
 
-    day_id = db.Column(db.Integer, db.ForeignKey('today.id'))
-    category_id = db.Column(db.Integer, db.ForeignKey('mission_category.id'))
-
-    day = db.relationship('Today', back_populates='missions')
-    category = db.relationship('MissionCategory', back_populates='missions')
+    plan_id = db.Column(db.Integer, db.ForeignKey('plan.id'))
+    plan = db.relationship('Plan', back_populates='missions')
 
 
-class MissionCategory(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), unique=True)
-
-    missions = db.relationship('Mission', back_populates='category')
 
 
-class TodoList(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), unique=True)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow, index=True)
 
-    tasks = db.relationship('Task', back_populates='todo_list')
-
-
-class Task(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    content = db.Column(db.String(50))
-    status = db.Column(db.Integer, default=0)
-
-    todo_list_id = db.Column(db.Integer, db.ForeignKey('todo_list.id'))
-    todo_list = db.relationship('TodoList', back_populates='tasks')
 
 
 

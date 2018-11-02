@@ -1,5 +1,5 @@
 import random
-from todoism.models import TodoList, Task
+from todoism.models import Category, User
 from sqlalchemy.exc import IntegrityError
 from todoism import db
 from faker import Faker
@@ -8,23 +8,16 @@ from faker import Faker
 fake = Faker()
 
 
-def fake_todo_lists(count=12):
+def fake_categorise(count=12):
+    author = User.query.first()
+    category = Category(name="default", author=author)
+    db.session.add(category)
     for i in range(count):
-        todo_list = TodoList(name=fake.word())
-        db.session.add(todo_list)
+        category = Category(name=fake.word(), author=author)
+        db.session.add(category)
         try:
             db.session.commit()
         except IntegrityError:
             db.session.rollback()
 
-
-def fake_tasks(count=50):
-    for i in range(count):
-        task = Task(
-            content=fake.sentence(),
-            status=random.randint(1, 3),
-            todo_list=TodoList.query.get(random.randint(1, TodoList.query.count()))
-        )
-        db.session.add(task)
-        db.session.commit()
 

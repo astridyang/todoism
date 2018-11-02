@@ -115,3 +115,4 @@ logs/*
 /todoserver/notes.md
 /todoserver/api.md
 /todoserver/.flaskenv
+/note.md

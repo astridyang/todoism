@@ -3,7 +3,7 @@ from flask import g, current_app, request
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, BadSignature, SignatureExpired
 
 from todoism.apis.v1.errors import api_abort, invalid_token, token_missing
-from todoism.models import Admin
+from todoism.models import User
 
 
 def generate_token(user):
@@ -19,7 +19,7 @@ def validate_token(token):
         data = s.loads(token)
     except (BadSignature, SignatureExpired):
         return False
-    user = Admin.query.get(data['id'])
+    user = User.query.get(data['id'])
     if user is None:
         return False
     g.current_user = user

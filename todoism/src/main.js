@@ -2,9 +2,9 @@ import Vue from 'vue'
 import App from './App.vue'
 import VueRouter from 'vue-router'
 import Login from './components/Login.vue'
-import Record from './components/Record.vue'
+import Mission from './components/Mission.vue'
 import axios from 'axios'
-
+import store from './store/store'
 axios.defaults.baseURL = 'http://localhost:5000/api/v1'
 
 
@@ -13,7 +13,7 @@ Vue.use(VueRouter)
 Vue.prototype.$http = axios
 const routes = [
     {path: '/', component: Login},
-    {path: '/record', component: Record}
+    {path: '/mission', component: Mission}
 ]
 
 const router = new VueRouter({
@@ -22,5 +22,6 @@ const router = new VueRouter({
 
 new Vue({
     router,
+    store,
     render: h => h(App)
 }).$mount('#app')

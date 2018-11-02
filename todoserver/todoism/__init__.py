@@ -4,9 +4,8 @@ import click
 from flask import Flask
 from todoism.settings import config
 from todoism.extensions import db, migrate
-from todoism.blueprints.todo_list import todo_list_bp
 from todoism.apis.v1 import api_v1
-from todoism.models import Admin, Today, Mission, MissionCategory, TodoList, Task
+from todoism.models import User, Category
 
 
 def create_app(config_name=None):
@@ -28,7 +27,6 @@ def register_extensions(app):
 
 
 def register_blueprints(app):
-    app.register_blueprint(todo_list_bp)
     app.register_blueprint(api_v1, url_prefix='/api/v1')
 
 
@@ -50,14 +48,14 @@ def register_commands(app):
         click.echo('Initializing the database...')
         db.create_all()
 
-        admin = Admin.query.first()
+        admin = User.query.first()
         if admin is not None:
             click.echo('The administrator already exists, updating...')
             admin.username = username
             admin.set_password(password)
         else:
             click.echo('Creating the temporary administrator account...')
-            admin = Admin(
+            admin = User(
                 username=username,
             )
             admin.set_password(password)
@@ -66,20 +64,16 @@ def register_commands(app):
         click.echo('Done.')
 
     @app.cli.command()
-    @click.option('--todo_lists', default=12, help='Quantity of todo_lists, default is 12.')
-    @click.option('--tasks', default=50, help='Quantity of tasks, default is 50.')
-    def forge(todo_lists, tasks):
+    @click.option('--category', default=12, help='Quantity of todo_lists, default is 12.')
+    def forge(category):
         """Generate fake data."""
-        from todoism.fakes import fake_todo_lists, fake_tasks
+        from todoism.fakes import fake_categorise
 
         db.drop_all()
         db.create_all()
 
-        click.echo('Generating %d todo_lists...' % todo_lists)
-        fake_todo_lists(todo_lists)
-
-        click.echo('Generating %d tasks...' % tasks)
-        fake_tasks(tasks)
+        click.echo('Generating %d categorise...' % category)
+        fake_categorise(category)
 
         click.echo('Done')
 
@@ -87,6 +81,6 @@ def register_commands(app):
 def register_shell_context(app):
     @app.shell_context_processor
     def make_shell_context():
-        return dict(db=db, TodoList=TodoList, Task=Task)
+        return dict(db=db, Category=Category, User=User)
 
 
