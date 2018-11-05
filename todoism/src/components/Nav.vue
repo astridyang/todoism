@@ -2,6 +2,9 @@
     <div class="td_nav">
         <div class="wrap_main">
             <router-link to="/">Home</router-link>
+            <span class="float-right">
+                <router-link to="/add_category">New Category</router-link>
+            </span>
         </div>
     </div>
 </template>

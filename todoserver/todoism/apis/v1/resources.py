@@ -1,10 +1,20 @@
-from flask import jsonify, current_app, request, url_for
+from flask import jsonify, current_app, request, url_for, g
 from todoism.apis.v1 import api_v1
 from todoism.apis.v1.errors import api_abort
 from todoism.models import User, Category
+from todoism.extensions import db
 from todoism.apis.v1.auth import generate_token, auth_required
+from todoism.apis.v1.errors import validation_error
 from todoism.apis.v1.schemas import category_schema, categorise_schema
 from flask.views import MethodView
+
+
+def get_body_item():
+    data = request.get_json()
+    body = data.get('body')
+    if body is None or str(body).strip() == '':
+        raise validation_error('The item body is empty or invalid.')
+    return body
 
 
 class IndexAPI(MethodView):
@@ -33,9 +43,9 @@ class AuthTokenAPI(MethodView):
         response = jsonify({
             'access_token': token,
             'token_type': 'Bearer',
-            'expires_in': expiration,
-            'code': 200
+            'expires_in': expiration
         })
+        response.status_code = 200
         response.headers['Cache-Control'] = 'no-store'
         response.headers['Pragma'] = 'no-cache'
         return response
@@ -44,29 +54,29 @@ class AuthTokenAPI(MethodView):
 class CategoryAPI(MethodView):
     def get(self, category_id):
         category = Category.query.get_or_404(category_id)
-        # todo
-        # if g.current_user != category.author:
-        #     return api_abort(403)
+        if g.current_user != category.author:
+            return api_abort(403)
         return jsonify(category_schema(category))
 
 
 class CategoriseAPI(MethodView):
     # todo
-    decorators = [auth_required]
+    # decorators = [auth_required]
 
     def get(self):
-        page = request.args.get('page', 1, type=int)
-        per_page = current_app.config['TODOISM_ITEM_PER_PAGE']
-        pagination = Category.query.paginate(page, per_page)
-        categorise = pagination.items
-        current = url_for('.categorise', page=page, _external=True)
-        prev = None
-        if pagination.has_prev:
-            prev = url_for('.categorise', page=page-1, _external=True)
-        next = None
-        if pagination.has_next:
-            next = url_for('.categorise', page=page+1, _external=True)
-        return jsonify(categorise_schema(categorise, current, prev, next, pagination))
+        categorise = Category.query.all()
+        return jsonify(categorise_schema(categorise))
+
+    def post(self):
+        name = request.data.name
+        author = g.current_user
+        category = Category(name=name, author=author)
+        db.session.add(category)
+        db.session.commit()
+        response = jsonify(category_schema(category))
+        response.status_code = 201
+        response.headers['Location'] = url_for('.category', category_id=category.id, _external=True)
+        return response
 
 
 api_v1.add_url_rule('/', view_func=IndexAPI.as_view('index'), methods=['GET'])

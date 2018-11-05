@@ -10,14 +10,9 @@ def category_schema(category):
     }
 
 
-def categorise_schema(categorise, current, prev, next, pagination):
+def categorise_schema(categorise):
     return {
-        'self': current,
+        'self': url_for('.categorise', _external=True),
         'kind': 'CategoryCollection',
-        'items': [category_schema(category) for category in categorise],
-        'prev': prev,
-        'next': next,
-        'last': url_for('.categorise', page=pagination.pages, _external=True),
-        'first': url_for('.categorise', page=1, _external=True),
-        'count': pagination.total
+        'items': [category_schema(category) for category in categorise]
     }
