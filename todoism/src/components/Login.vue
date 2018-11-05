@@ -13,6 +13,9 @@
                 <button @click="login">submit</button>
             </div>
         </form>
+        <div>
+            <button @click="test">click</button>
+        </div>
     </div>
 </template>
 <script>
@@ -32,9 +35,18 @@
                     url: '/oauth/token',
                     data:formData
                 }).then(res => {
-                    // eslint-disable-next-line
-                    console.log(res)
+                    if (res.data.code === 200) {
+                        this.$store.commit('set_token', res.data.access_token)
+                        var _this = this;
+                        setTimeout(function () {
+                            _this.$router.push('/mission')
+                        }, 1500)
+                    }
                 })
+            },
+            test() {
+                // eslint-disable-next-line
+                console.log(this.$store.state.token)
             }
         }
     }

@@ -33,7 +33,8 @@ class AuthTokenAPI(MethodView):
         response = jsonify({
             'access_token': token,
             'token_type': 'Bearer',
-            'expires_in': expiration
+            'expires_in': expiration,
+            'code': 200
         })
         response.headers['Cache-Control'] = 'no-store'
         response.headers['Pragma'] = 'no-cache'
