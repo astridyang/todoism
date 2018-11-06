@@ -16,3 +16,27 @@ def categorise_schema(categorise):
         'kind': 'CategoryCollection',
         'items': [category_schema(category) for category in categorise]
     }
+
+
+def plan_schema(plan):
+    return {
+        'id': plan.id,
+        'self': url_for('.plan', plan_id=plan.id, _external=True),
+        'kink': 'Plan',
+        'name': plan.name,
+    }
+
+
+def plans_schema(plans):
+    return {
+        'self': url_for('.plans', _external=True),
+        'kind': 'PlanCollection',
+        'items': [plan_schema(plan) for plan in plans]
+    }
+
+
+def missions_schema():
+    return {
+        'self': url_for('.missions', _external=True),
+        'kind': 'MissionCollection'
+    }

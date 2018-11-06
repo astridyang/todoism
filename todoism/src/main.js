@@ -23,7 +23,6 @@ const router = new VueRouter({
     mode: 'history',
     routes
 })
-
 new Vue({
     router,
     store,
