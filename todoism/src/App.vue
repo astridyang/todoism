@@ -16,7 +16,7 @@
 //import HelloWorld from './components/HelloWorld.vue'
 import Nav from './components/Nav.vue'
 import './static/css/common.scss'
-import './static/css/pink.scss'
+import './static/css/default.scss'
 export default {
   name: 'app',
   components: {

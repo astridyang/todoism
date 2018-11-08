@@ -1,11 +1,11 @@
 from flask import jsonify, current_app, request, url_for, g
 from todoism.apis.v1 import api_v1
 from todoism.apis.v1.errors import api_abort
-from todoism.models import User, Category
+from todoism.models import User, Category, Plan
 from todoism.extensions import db
 from todoism.apis.v1.auth import generate_token, auth_required
 from todoism.apis.v1.errors import validation_error
-from todoism.apis.v1.schemas import category_schema, categorise_schema
+from todoism.apis.v1.schemas import category_schema, categorise_schema, plan_schema, plans_schema
 from flask.views import MethodView
 
 
@@ -79,10 +79,38 @@ class CategoriseAPI(MethodView):
         return response
 
 
+class PlanAPI(MethodView):
+    def get(self, plan_id):
+        plan = Plan.query.get_or_404(plan_id)
+        return jsonify(plan_schema(plan))
+
+
+class PlansAPI(MethodView):
+    # todo
+    # decorators = [auth_required]
+
+    def get(self):
+        plans = Plan.query.all()
+        return jsonify(plans_schema(plans))
+
+    def post(self):
+        name = request.data.name
+        plan = Plan(name=name)
+        db.session.add(plan)
+        db.session.commit()
+        response = jsonify(plan_schema(plan))
+        response.status_code = 201
+        response.headers['Location'] = url_for('.plan', plan_id=plan.id, _external=True)
+        return response
+
+
 api_v1.add_url_rule('/', view_func=IndexAPI.as_view('index'), methods=['GET'])
 api_v1.add_url_rule('/oauth/token', view_func=AuthTokenAPI.as_view('token'), methods=['POST'])
 api_v1.add_url_rule('/user/categorise', view_func=CategoriseAPI.as_view('categorise'), methods=['GET', 'POST'])
 api_v1.add_url_rule('/user/category/<int:category_id>', view_func=CategoryAPI.as_view('category'),
+                    methods=['GET', 'POST', 'DELETE', 'PATCH'])
+api_v1.add_url_rule('/user/plans', view_func=PlansAPI.as_view('plans'), methods=['GET', 'POST'])
+api_v1.add_url_rule('/user/plan/<int:plan_id>', view_func=PlanAPI.as_view('plan'),
                     methods=['GET', 'POST', 'DELETE', 'PATCH'])
 
 
