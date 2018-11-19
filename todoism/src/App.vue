@@ -4,7 +4,6 @@
     <div class="wrap_main">
       <!--<img alt="Vue logo" src="./assets/logo.png">-->
       <p>Welcome, today is </p>
-      <p>You got points today.</p>
       <div class="td_main">
         <router-view></router-view>
       </div>

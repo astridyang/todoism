@@ -1,24 +1,25 @@
 <template>
     <div class="td_mission">
         <div class="mission_table">
-            <div class="text-right"><button @click="addMission">New mission</button></div>
             <form action="">
-                <!-- eslint-disable -->
-                <div class="form_item" v-for="(mission, index) in missions">
-                    <span><input type="text" class="time_span" placeholder="time span" v-model="mission.time_span" :key="mission.id"></span>
-                    <span><input type="text" placeholder="task" v-model="mission.content" :key="mission.id"></span>
-                    <span>
-                    <select name="plan" id="" v-model="mission.plan">
-                        <option value="0">select plan</option>
-                        <option :value="plan.id" :key="plan.id" v-for="plan in plans">{{plan.name}}</option>
-                    </select>
-                        <a href="javascript:;" class="dangerous" @click="deleteMission(index)" v-if="missions.length>1">delete</a>
-                </span>
+                <div class="plan" v-for="plan in plans" :key="plan.id">
+                    <h3>plan name ({{plan.planed_time}}h/{{plan.used_time}}h)</h3>
+                    <ul class="mission-list">
+                        <li>
+                            <span class="name">mission name</span>
+                            <input type="text" class="used-time">
+                        </li>
+                        <li>
+                            <span class="name">mission name</span>
+                            <input type="text" class="used-time">
+                        </li>
+                    </ul>
                 </div>
-                <div class="form_item">
-                    <button>submit</button>
+                <div class="total text-right">
+                    sum: {{scores}} scores
+                    <p><button>submit</button></p>
                 </div>
-                {{message}}
+
             </form>
         </div>
     </div>
@@ -29,21 +30,30 @@
         name:'Mission',
         data () {
             return {
-                missions:[{id:0,time_span:'',content:'',plan:1}],
-                plans:[],
-                message:''
+                plans:[
+                    {
+                        id: 1,
+                        name: "plan1",
+                        cate_id: 1,
+                        planed_time:50,
+                        used_time: 20,
+                        expire_date: '2018-12-2',
+                        missions:[
+                            {
+                                id: 1,
+                                name: 'mission1'
+                            }
+                        ]
+                    }
+                ],
+                message:'',
+                scores: 0
             }
         },
         mounted () {
             this.getCategories();
         },
         methods: {
-            addMission () {
-                this.missions.push({id:0,time_span:'',content:'',plan:0})
-            },
-            deleteMission (idx) {
-                this.missions.splice(idx,1)
-            },
             getCategories () {
                 let _this = this
                 this.$http.get("/user/categorise", {
@@ -65,6 +75,19 @@
                 width: 120px;
             }
 
+        }
+    }
+    .mission-list{
+        li{
+            display: flex;
+            margin-bottom: 10px;
+            .name{
+                flex: 1;
+            }
+            input{
+                width: 100px;
+                margin: 0 20px;
+            }
         }
     }
 </style>

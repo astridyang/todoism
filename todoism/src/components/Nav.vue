@@ -11,7 +11,7 @@
                 <router-link to="/manage_plan">Manage Plan</router-link>
             </span>
             <span class="float-right">
-                <router-link to="/mission_list">Mission list</router-link>
+                <router-link to="/mission_list">mission list</router-link>
             </span>
         </div>
     </div>
