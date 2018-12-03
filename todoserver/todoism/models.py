@@ -44,16 +44,7 @@ class Plan(db.Model):
 
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
     category = db.relationship('Category', back_populates='plans')
-    missions = db.relationship('Mission', back_populates='plan', cascade='all')
 
-
-class Mission(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    time_span = db.Column(db.String(20))
-    content = db.Column(db.String(50))
-
-    plan_id = db.Column(db.Integer, db.ForeignKey('plan.id'))
-    plan = db.relationship('Plan', back_populates='missions')
 
 
 
