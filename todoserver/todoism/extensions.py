@@ -13,8 +13,8 @@ csrf = CSRFProtect()
 
 @login_manager.user_loader
 def load_user(user_id):
-    from todoism.models import User
-    user = User.query.get(int(user_id))
+    from todoism.models import Admin
+    user = Admin.query.get(int(user_id))
     return user
 
 

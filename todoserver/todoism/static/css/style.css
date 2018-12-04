@@ -1,4 +1,37 @@
-div {
-  box-sizing: border-box; }
+ul, li {
+  list-style: none;
+  margin: 0;
+  padding: 0; }
+
+nav {
+  background: #3399ff;
+  color: #ffffff;
+  height: 60px; }
+  nav .left a, nav .right a {
+    display: inline-block;
+    line-height: 60px; }
+  nav > a {
+    display: inline-block;
+    line-height: 60px; }
+  nav a {
+    color: #ffffff; }
+  nav .right > div {
+    display: inline-block; }
+  nav .right li {
+    display: inline-block;
+    padding: 0 5px; }
+
+.left {
+  float: left; }
+
+.right {
+  float: right; }
+
+.wraper {
+  width: 1000px;
+  margin: 0 auto; }
+
+.main {
+  margin-top: 30px; }
 
 /*# sourceMappingURL=style.css.map */

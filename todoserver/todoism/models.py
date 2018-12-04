@@ -4,12 +4,10 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
 
-class User(db.Model, UserMixin):
+class Admin(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(20))
+    username = db.Column(db.String(20), unique=True)
     password_hash = db.Column(db.String(128))
-
-    categorise = db.relationship('Category', back_populates='author', cascade='all')
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -21,11 +19,7 @@ class User(db.Model, UserMixin):
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(20))
-
     plans = db.relationship('Plan', back_populates='category')
-
-    author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    author = db.relationship('User', back_populates='categorise')
 
     def delete(self):
         default_category = Category.query.get(1)

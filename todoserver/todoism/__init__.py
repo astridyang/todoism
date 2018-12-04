@@ -5,7 +5,9 @@ from flask import Flask
 from todoism.settings import config
 from todoism.extensions import db, migrate, bootstrap, login_manager, csrf
 from todoism.blueprints.auth import auth_bp
-from todoism.models import User, Category
+from todoism.blueprints.mission import mission_bp
+from todoism.blueprints.admin import admin_bp
+from todoism.models import Admin, Category
 
 
 def create_app(config_name=None):
@@ -30,7 +32,9 @@ def register_extensions(app):
 
 
 def register_blueprints(app):
+    app.register_blueprint(mission_bp)
     app.register_blueprint(auth_bp, url_prefix="/auth")
+    app.register_blueprint(admin_bp, url_prefix="/admin")
 
 
 def register_commands(app):
@@ -51,14 +55,14 @@ def register_commands(app):
         click.echo('Initializing the database...')
         db.create_all()
 
-        admin = User.query.first()
+        admin = Admin.query.first()
         if admin is not None:
             click.echo('The administrator already exists, updating...')
             admin.username = username
             admin.set_password(password)
         else:
             click.echo('Creating the temporary administrator account...')
-            admin = User(username=username)
+            admin = Admin(username=username)
             admin.set_password(password)
             db.session.add(admin)
         db.session.commit()
@@ -82,6 +86,6 @@ def register_commands(app):
 def register_shell_context(app):
     @app.shell_context_processor
     def make_shell_context():
-        return dict(db=db, User=User)
+        return dict(db=db, Admin=Admin)
 
 

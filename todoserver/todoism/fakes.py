@@ -1,5 +1,5 @@
 import random
-from todoism.models import Category, User
+from todoism.models import Category, Admin
 from sqlalchemy.exc import IntegrityError
 from todoism import db
 from faker import Faker
@@ -9,7 +9,7 @@ fake = Faker()
 
 
 def fake_categorise(count=12):
-    author = User.query.first()
+    author = Admin.query.first()
     category = Category(name="default", author=author)
     db.session.add(category)
     for i in range(count):

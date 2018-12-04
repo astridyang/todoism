@@ -1,7 +1,7 @@
 from flask import jsonify, current_app, request, url_for, g
 from todoism.apis.v1 import api_v1
 from todoism.apis.v1.errors import api_abort
-from todoism.models import User, Category, Plan
+from todoism.models import Admin, Category, Plan
 from todoism.extensions import db
 from todoism.apis.v1.auth import generate_token, auth_required
 from todoism.apis.v1.errors import validation_error
@@ -35,7 +35,7 @@ class AuthTokenAPI(MethodView):
         if grant_type is None or grant_type.lower() != 'password':
             return api_abort(code=400, message='The grant_type must be password')
 
-        user = User.query.filter_by(username=username).first()
+        user = Admin.query.filter_by(username=username).first()
         if user is None or not user.validate_password(password):
             return api_abort(code=400, message='Either the username or password was invalid.')
         token, expiration = generate_token(user)
