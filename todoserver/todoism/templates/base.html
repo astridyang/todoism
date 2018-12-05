@@ -19,22 +19,22 @@
         <nav>
             <div class="wraper">
                 <div class="left">
-                <a href="">Home</a>
+                <a href="/">Home</a>
             </div>
             <div class="right">
                 {% if current_user.is_authenticated %}
                 <div class="new">
                     <ul>
                         <li><a href="{{url_for('admin.new_category')}}">new category</a></li>
-                        <li><a href="">new plan</a></li>
-                        <li><a href="">new mission</a></li>
+                        <li><a href="{{url_for('admin.new_plan')}}">new plan</a></li>
+                        <li><a href="{{url_for('admin.new_mission')}}">new mission</a></li>
                     </ul>
                 </div>
                 <div class="manage">
                     <ul>
                         <li><a href="{{url_for('admin.manage_category')}}">manage category</a></li>
-                        <li><a href="">manage plan</a></li>
-                        <li><a href="">manage mission</a></li>
+                        <li><a href="{{url_for('admin.manage_plan')}}">manage plan</a></li>
+                        <li><a href="{{url_for('admin.manage_mission')}}">manage mission</a></li>
                     </ul>
                 </div>
 

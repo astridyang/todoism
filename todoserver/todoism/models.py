@@ -32,13 +32,25 @@ class Category(db.Model):
 
 class Plan(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    # TODO index
     created_at = db.Column(db.DateTime, default=datetime.utcnow, index=True)
     name = db.Column(db.String(30))
 
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
     category = db.relationship('Category', back_populates='plans')
 
+    missions = db.relationship('Mission', back_populates='plan')
+
+
+class Mission(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow, index=True)
+    name = db.Column(db.String(30))
+    plan_time = db.Column(db.Integer, default=0)
+    used_time = db.Column(db.Integer, default=0)
+    status = db.Column(db.Integer, default=1)
+
+    plan_id = db.Column(db.Integer, db.ForeignKey('plan.id'))
+    plan = db.relationship('Plan', back_populates='missions')
 
 
 

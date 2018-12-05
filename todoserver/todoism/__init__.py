@@ -7,7 +7,7 @@ from todoism.extensions import db, migrate, bootstrap, login_manager, csrf
 from todoism.blueprints.auth import auth_bp
 from todoism.blueprints.mission import mission_bp
 from todoism.blueprints.admin import admin_bp
-from todoism.models import Admin, Category
+from todoism.models import Admin, Category, Plan, Mission
 
 
 def create_app(config_name=None):
@@ -20,7 +20,18 @@ def create_app(config_name=None):
     register_blueprints(app)
     register_commands(app)
     register_shell_context(app)
+    register_template_context(app)
     return app
+
+
+def register_template_context(app):
+    @app.context_processor
+    def make_template_context():
+        admin = Admin.query.first()
+        categories = Category.query.order_by(Category.name).all()
+        plans = Plan.query.order_by(Plan.name).all()
+        missions = Mission.query.order_by(Mission.name).all()
+        return dict(admin=admin, categories=categories, plans=plans, missions=missions)
 
 
 def register_extensions(app):

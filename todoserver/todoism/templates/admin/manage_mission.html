@@ -1,53 +1,55 @@
 {% extends 'base.html' %}
 {% from 'bootstrap/form.html' import render_form %}
 
-{% block title %}Manage Categories{% endblock %}
+{% block title %}Manage Missions{% endblock %}
 
 {% block content %}
     <div class="page-header">
-        <h1>Categories
-            <small class="text-muted">{{ categories|length }}</small>
+        <h1>Missions
+            <small class="text-muted">{{ missions|length }}</small>
             <span class="float-right"><a class="btn btn-primary btn-sm"
-                                         href="{{ url_for('.new_category') }}">New Category</a></span>
+                                         href="{{ url_for('.new_mission') }}">New Mission</a></span>
         </h1>
     </div>
-    {% if categories %}
+    {% if missions %}
         <table class="table table-striped">
             <thead>
             <tr>
                 <th>No.</th>
                 <th>Name</th>
-                <th>Plans</th>
+                <th>Plan Time</th>
+                <th>Status</th>
                 <th>Actions</th>
             </tr>
             </thead>
-            {% for category in categories %}
+            {% for mission in missions %}
                 <tr>
                     <td>{{ loop.index }}</td>
                     <td>
-                        <a href="">{{ category.name }}</a>
+                        <a href="">{{ mission.name }}</a>
                     </td>
-                    <td>{{ category.plans|length }}</td>
+                    <td>{{ mission.plan_time }}</td>
                     <td>
-                        {% if category.id != 1 %}
-                            <a class="btn btn-info btn-sm"
-                               href="{{ url_for('.edit_category', category_id=category.id)}}">Edit</a>
+
+                    </td>
+                    <td>
+                        <a class="btn btn-info btn-sm"
+                               href="{{ url_for('.edit_mission', mission_id=mission.id)}}">Edit</a>
 
                             <form class="inline" method="post"
-                                  action="{{ url_for('.delete_category', category_id=category.id)}}">
+                                  action="{{ url_for('.delete_mission', mission_id=mission.id)}}">
                                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                                 <button type="submit" class="btn btn-danger btn-sm"
                                         onclick="return confirm('Are you sure?');">Delete
                                 </button>
                             </form>
-                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}
         </table>
-        <p class="text-muted">Tips: Deleting a category does not delete the article under that category.
-            The articles under this category will be moved to the default category.</p>
+        <p class="text-muted">Tips: Deleting a mission does not delete the article under that mission.
+            The articles under this mission will be moved to the default mission.</p>
     {% else %}
-        <div class="tip"><h5>No categories.</h5></div>
+        <div class="tip"><h5>No missions.</h5></div>
     {% endif %}
 {% endblock %}
