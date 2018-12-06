@@ -3,6 +3,36 @@
 Home
 {% endblock title%}
 {% block content %}
-    <h2>daily mission</h2>
-
+    <div class="index">
+        <h2>daily mission</h2>
+    {% for plan in plan_list %}
+        <p>{{ plan.name }}</p>
+    {% endfor %}
+    <section>
+        <h3>plan name <span>total mission</span></h3>
+        <table>
+            <tr>
+                <th>name</th>
+                <th>created time</th>
+                <th>plan time</th>
+                <th>used time</th>
+                <th>today_used</th>
+            </tr>
+            <tr>
+                <td>m1</td>
+                <td>2018-12-6</td>
+                <td>20</td>
+                <td>10</td>
+                <td><input type="text"></td>
+            </tr>
+            <tr>
+                <td>m1</td>
+                <td>2018-12-6</td>
+                <td>20</td>
+                <td>10</td>
+                <td><input type="text"></td>
+            </tr>
+        </table>
+    </section>
+    </div>
 {% endblock %}

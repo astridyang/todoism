@@ -37,4 +37,7 @@ nav {
 .inline {
   display: inline-block; }
 
+.index th, .index td {
+  padding: 10px; }
+
 /*# sourceMappingURL=style.css.map */
