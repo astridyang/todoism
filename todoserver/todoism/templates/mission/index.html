@@ -5,34 +5,30 @@ Home
 {% block content %}
     <div class="index">
         <h2>daily mission</h2>
-    {% for plan in plan_list %}
-        <p>{{ plan.name }}</p>
-    {% endfor %}
+
+
+
     <section>
-        <h3>plan name <span>total mission</span></h3>
+        <div>今日任务数12个，计划用时10小时</div>
+        {% for mission in missions %}
         <table>
             <tr>
-                <th>name</th>
-                <th>created time</th>
-                <th>plan time</th>
-                <th>used time</th>
-                <th>today_used</th>
+                <th colspan="2">{{mission.name}}</th>
             </tr>
             <tr>
-                <td>m1</td>
-                <td>2018-12-6</td>
-                <td>20</td>
-                <td>10</td>
-                <td><input type="text"></td>
+                <th>已完成任务数</th>
+                <td></td>
             </tr>
             <tr>
-                <td>m1</td>
-                <td>2018-12-6</td>
-                <td>20</td>
-                <td>10</td>
-                <td><input type="text"></td>
+                <th>每天任务数(计划/实际)</th>
+                <td>{{mission.daily_missions}} / <input type="text" value="{{mission.daily_missions}}">{{mission.unit}}</td>
+            </tr>
+            <tr>
+                <th>用时(计划/实际)</th>
+                <td>{{mission.daily_hours}} / <input type="text" value="{{mission.daily_hours}}">小时</td>
             </tr>
         </table>
+{% endfor %}
     </section>
     </div>
 {% endblock %}

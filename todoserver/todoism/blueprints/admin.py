@@ -4,6 +4,7 @@ from ..forms import CategoryForm, PlanForm, MissionForm
 from ..models import Category, Plan, Mission
 from ..extensions import db
 from ..utils import redirect_back
+import math
 
 admin_bp = Blueprint('admin', __name__)
 
@@ -121,8 +122,18 @@ def new_mission():
     if form.validate_on_submit():
         name = form.name.data
         plan = Plan.query.get(form.plan.data)
-        plan_time = form.plan_time.data
-        mission = Mission(name=name, plan=plan, plan_time=plan_time)
+        unit = form.unit.data
+        total_missions = form.total_missions.data
+        start_at = form.start_at.data
+        end_at = form.end_at.data
+        daily_hours = form.daily_hours.data
+        total_days = (end_at - start_at).days
+        daily_missions = math.ceil(total_missions / total_days)
+        total_hours = daily_hours * total_days
+        mission = Mission(name=name, plan=plan, unit=unit, total_missions=total_missions,
+                          start_at=start_at, end_at=end_at, daily_hours=daily_hours,
+                          daily_missions=daily_missions, total_hours=total_hours,
+                          total_days=total_days)
         db.session.add(mission)
         db.session.commit()
         flash('Mission created.', 'success')
@@ -163,3 +174,12 @@ def delete_mission(mission_id):
     flash('Mission deleted.', 'success')
     return redirect_back()
 
+
+@admin_bp.route('/mission/<int:mission_id>/delete', methods=['POST'])
+@login_required
+def complete_mission(mission_id):
+    mission = Mission.query.get_or_404(mission_id)
+    mission.is_completed = 1
+    db.session.commit()
+    flash('Mission completed.', 'success')
+    return redirect_back()

@@ -3,7 +3,7 @@ import os
 import click
 from flask import Flask
 from todoism.settings import config
-from todoism.extensions import db, migrate, bootstrap, login_manager, csrf
+from todoism.extensions import db, migrate, bootstrap, login_manager, csrf, moment
 from todoism.blueprints.auth import auth_bp
 from todoism.blueprints.mission import mission_bp
 from todoism.blueprints.admin import admin_bp
@@ -40,6 +40,7 @@ def register_extensions(app):
     bootstrap.init_app(app)
     login_manager.init_app(app)
     csrf.init_app(app)
+    moment.init_app(app)
 
 
 def register_blueprints(app):

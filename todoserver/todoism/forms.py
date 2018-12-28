@@ -1,8 +1,9 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField, ValidationError
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField, ValidationError, \
+    DateField, IntegerField, FloatField
 from wtforms.validators import DataRequired, Length
 from todoism.models import Category, Plan
-
+from datetime import datetime
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(1, 20)])
@@ -34,7 +35,11 @@ class PlanForm(FlaskForm):
 class MissionForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired(), Length(1, 30)])
     plan = SelectField('Plan', coerce=int, default=1)
-    plan_time = StringField('Plan Time', validators=[DataRequired()])
+    unit = StringField('Unit', validators=[DataRequired(), Length(1, 10)])
+    total_missions = IntegerField('Total missions', validators=[DataRequired()])
+    start_at = DateField('Start at', format='%Y-%m-%d', default=datetime.utcnow(), validators=[DataRequired()])
+    end_at = DateField('End at', format='%Y-%m-%d', default=datetime.utcnow(), validators=[DataRequired()])
+    daily_hours = FloatField('Daily hours', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
     def __init__(self, *args, **kwargs):
