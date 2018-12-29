@@ -50,10 +50,14 @@ class Mission(db.Model):
     start_at = db.Column(db.DateTime, index=True)
     end_at = db.Column(db.DateTime, index=True)
     total_days = db.Column(db.Integer)
+    # daily plan mission
     daily_missions = db.Column(db.Integer)
+    # daily plan hour
     daily_hours = db.Column(db.Float)
     total_hours = db.Column(db.Float)
     total_used_hours = db.Column(db.Float, default=0)
+    # current completed mission
+    completed_missions = db.Column(db.Integer, default=0)
     # 1 completed
     is_completed = db.Column(db.Integer, default=0)
     # status = db.Column(db.Integer, default=1)

@@ -155,13 +155,21 @@ def edit_mission(mission_id):
     if form.validate_on_submit():
         mission.name = form.name.data
         mission.plan = Plan.query.get(form.plan.data)
-        mission.plan_time = form.plan_time.data
+        mission.unit = form.unit.data
+        mission.total_missions = form.total_missions.data
+        mission.start_at = form.start_at.data
+        mission.end_at = form.end_at.data
+        mission.daily_hours = form.daily_hours.data
         db.session.commit()
         flash('Mission updated.', 'success')
         return redirect(url_for('.manage_mission'))
     form.name.data = mission.name
     form.plan.data = mission.plan_id
-    form.plan_time.data = mission.plan_time
+    form.unit.data = mission.unit
+    form.total_missions.data = mission.total_missions
+    form.start_at.data = mission.start_at
+    form.end_at.data = mission.end_at
+    form.daily_hours.data = mission.daily_hours
     return render_template('admin/new_plan.html', form=form, title="New Mission")
 
 

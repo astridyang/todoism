@@ -81,23 +81,28 @@ def register_commands(app):
         click.echo('Done.')
 
     @app.cli.command()
-    @click.option('--category', default=12, help='Quantity of todo_lists, default is 12.')
-    def forge(category):
+    @click.option('--category', default=12, help='Quantity of category, default is 12.')
+    @click.option('--plan', default=12, help='Quantity of plan, default is 12.')
+    @click.option('--mission', default=12, help='Quantity of mission, default is 12.')
+    def forge(category, plan, mission):
         """Generate fake data."""
-        # from todoism.fakes import fake_categorise
-        #
-        # db.drop_all()
-        # db.create_all()
-        #
-        # click.echo('Generating %d categorise...' % category)
-        # fake_categorise(category)
-        #
-        # click.echo('Done')
+        from todoism.fakes import fake_categorise, fake_plans
+
+        db.drop_all()
+        db.create_all()
+
+        click.echo('Generating %d categorise...' % category)
+        fake_categorise(category)
+
+        click.echo('Generating %d plans...' % plan)
+        fake_plans(plan)
+
+        click.echo('Done')
 
 
 def register_shell_context(app):
     @app.shell_context_processor
     def make_shell_context():
-        return dict(db=db, Admin=Admin)
+        return dict(db=db, Admin=Admin, Mission=Mission, Category=Category, Plan=Plan)
 
 
