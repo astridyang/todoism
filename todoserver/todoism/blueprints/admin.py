@@ -126,18 +126,21 @@ def new_mission():
         total_missions = form.total_missions.data
         start_at = form.start_at.data
         end_at = form.end_at.data
-        daily_hours = form.daily_hours.data
-        total_days = (end_at - start_at).days
-        daily_missions = math.ceil(total_missions / total_days)
-        total_hours = daily_hours * total_days
-        mission = Mission(name=name, plan=plan, unit=unit, total_missions=total_missions,
-                          start_at=start_at, end_at=end_at, daily_hours=daily_hours,
-                          daily_missions=daily_missions, total_hours=total_hours,
-                          total_days=total_days)
-        db.session.add(mission)
-        db.session.commit()
-        flash('Mission created.', 'success')
-        return redirect(url_for('.manage_mission'))
+        if end_at < start_at:
+            flash('End at is invalid', 'warning')
+        else:
+            daily_hours = form.daily_hours.data
+            total_days = (end_at - start_at).days
+            daily_missions = math.ceil(total_missions / total_days)
+            total_hours = daily_hours * total_days
+            mission = Mission(name=name, plan=plan, unit=unit, total_missions=total_missions,
+                              start_at=start_at, end_at=end_at, daily_hours=daily_hours,
+                              daily_missions=daily_missions, total_hours=total_hours,
+                              total_days=total_days)
+            db.session.add(mission)
+            db.session.commit()
+            flash('Mission created.', 'success')
+            return redirect(url_for('.manage_mission'))
     return render_template('admin/new_mission.html', form=form, title='New Mission')
 
 
@@ -159,10 +162,17 @@ def edit_mission(mission_id):
         mission.total_missions = form.total_missions.data
         mission.start_at = form.start_at.data
         mission.end_at = form.end_at.data
-        mission.daily_hours = form.daily_hours.data
-        db.session.commit()
-        flash('Mission updated.', 'success')
-        return redirect(url_for('.manage_mission'))
+        if mission.end_at < mission.start_at:
+            flash("End at is invalid", 'warning')
+        else:
+            mission.daily_hours = form.daily_hours.data
+            # 重新计算
+            mission.total_days = (mission.end_at - mission.start_at).days
+            mission.daily_missions = math.ceil(mission.total_missions / mission.total_days)
+            mission.total_hours = mission.daily_hours * mission.total_days
+            db.session.commit()
+            flash('Mission updated.', 'success')
+            return redirect(url_for('.manage_mission'))
     form.name.data = mission.name
     form.plan.data = mission.plan_id
     form.unit.data = mission.unit
@@ -170,7 +180,7 @@ def edit_mission(mission_id):
     form.start_at.data = mission.start_at
     form.end_at.data = mission.end_at
     form.daily_hours.data = mission.daily_hours
-    return render_template('admin/new_plan.html', form=form, title="New Mission")
+    return render_template('admin/new_plan.html', form=form, title="Edit Mission")
 
 
 @admin_bp.route('/mission/<int:mission_id>/delete', methods=['POST'])

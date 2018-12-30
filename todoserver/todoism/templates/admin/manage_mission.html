@@ -35,8 +35,8 @@
         <td>{{ mission.plan.name}}</td>
         <td>{{ mission.unit }}</td>
         <td>{{ mission.total_missions }}</td>
-        <td>{{ moment(mission.start_at).format('LL') }}</td>
-        <td>{{ moment(mission.end_at).format('LL') }}</td>
+        <td>{{ moment(mission.start_at).format('L') }}</td>
+        <td>{{ moment(mission.end_at).format('L') }}</td>
         <td>{{ mission.daily_hours }}</td>
         <td>
             <a class="btn btn-info btn-sm"

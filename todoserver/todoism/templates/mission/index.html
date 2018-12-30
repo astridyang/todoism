@@ -7,12 +7,14 @@ Home
         <h2>daily mission</h2>
     <section>
         <div>今日任务数12个，计划用时10小时</div>
-        <form action="{{ url_for('.index')}}" method="post">
-<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <form action="{{ url_for('.index')}}" method="post" enctype="application/x-www-form-urlencoded">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
             {% for mission in missions %}
         <table>
             <tr>
-                <th colspan="2">{{mission.name}} {{ moment(mission.start_at).format('LL') }}-{{ moment(mission.end_at).format('LL') }}</th>
+                <th colspan="2">{{mission.name}} {{ moment(mission.start_at).format('L') }}-{{ moment(mission.end_at).format('L') }}
+                    <input type="text" hidden name="id[]" value="{{mission.id}}">
+                </th>
             </tr>
             <tr>
                 <th>任务数(总/已完成)</th>
@@ -24,11 +26,11 @@ Home
             </tr>
             <tr>
                 <th>每天任务数(计划/实际)</th>
-                <td>{{mission.daily_missions}} / <input type="text" value="{{mission.daily_missions}}" name="day_completed_mission"></td>
+                <td>{{mission.daily_missions}} / <input type="text" value="{{mission.daily_missions}}" name="day_completed_mission[]"></td>
             </tr>
             <tr>
                 <th>用时(计划/实际)</th>
-                <td>{{mission.daily_hours}} / <input type="text" value="{{mission.daily_hours}}" name="day_used_hour">小时</td>
+                <td>{{mission.daily_hours}} / <input type="text" value="{{mission.daily_hours}}" name="day_used_hour[]">小时</td>
             </tr>
         </table>
 {% endfor %}
