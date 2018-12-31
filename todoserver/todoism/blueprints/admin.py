@@ -58,16 +58,6 @@ def delete_category(category_id):
     return redirect(url_for('.manage_category'))
 
 
-@admin_bp.route('/category/<int:category_id>', methods=['GET', 'POST'])
-def show_category(category_id):
-    category = Category.query.get_or_404(category_id)
-    page = request.args.get('page', 1, type=int)
-    per_page = current_app.config['TODOISM_ITEM_PER_PAGE']
-    pagination = Plan.query.with_parent(category).order_by(Plan.timestamp.desc()).paginate(page, per_page)
-    plans = pagination.items
-    return render_template('admin/category.html', pagination=pagination, category=category, plans=plans)
-
-
 @admin_bp.route('/plan/new', methods=['GET', 'POST'])
 @login_required
 def new_plan():

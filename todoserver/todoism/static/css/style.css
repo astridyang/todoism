@@ -3,21 +3,21 @@ ul, li {
   margin: 0;
   padding: 0; }
 
-nav {
+.nav {
   background: #3399ff;
   color: #ffffff;
   height: 60px; }
-  nav .left a, nav .right a {
+  .nav .left a, .nav .right a {
     display: inline-block;
     line-height: 60px; }
-  nav > a {
+  .nav > a {
     display: inline-block;
     line-height: 60px; }
-  nav a {
+  .nav a {
     color: #ffffff; }
-  nav .right > div {
+  .nav .right > div {
     display: inline-block; }
-  nav .right li {
+  .nav .right li {
     display: inline-block;
     padding: 0 5px; }
 
