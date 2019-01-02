@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, current_app, request, flash
 from flask_login import login_required
-from ..models import Mission, Category, Plan
+from ..models import Mission, Category, Plan, MissionLog
 from ..utils import redirect_back
 from ..extensions import db
 mission_bp = Blueprint('mission', __name__)
@@ -15,14 +15,22 @@ def index():
         hours = request.form.getlist('day_used_hour[]')
         for i in ids:
             mission = Mission.query.get_or_404(i)
-            mission.completed_missions += int(missions[ids.index(i)])
-            mission.total_used_hours += float(hours[ids.index(i)])
+            completed_mission = int(missions[ids.index(i)])
+            used_time = float(hours[ids.index(i)])
+            mission.completed_missions += completed_mission
+            mission.total_used_hours += used_time
+
+            mission_log = MissionLog(mission=mission, completed_mission=completed_mission, used_time=used_time)
+            db.session.add(mission_log)
             db.session.commit()
         flash('submit success', 'success')
         return redirect_back()
     else:
-        missions = Mission.query.filter(Mission.is_completed == 0)
-        return render_template('home/index.html', missions=missions)
+        missions = Mission.query.filter(Mission.is_completed == 0).all()
+        total_time = 0.0
+        for mission in missions:
+            total_time += mission.daily_hours
+        return render_template('home/index.html', missions=missions, total_time=total_time)
 
 
 @mission_bp.route('/category/<int:category_id>', methods=['GET', 'POST'])
@@ -37,6 +45,7 @@ def show_category(category_id):
 
 
 @mission_bp.route('/plan/<int:plan_id>', methods=['GET', 'POST'])
+@login_required
 def show_plan(plan_id):
     plan = Plan.query.get_or_404(plan_id)
     page = request.args.get('page', 1, type=int)
@@ -44,6 +53,15 @@ def show_plan(plan_id):
     pagination = Mission.query.with_parent(plan).order_by(Mission.created_at.desc()).paginate(page, per_page)
     items = pagination.items
     return render_template('home/plan.html', pagination=pagination, plan=plan, items=items)
+
+
+@mission_bp.route('/view_log')
+@login_required
+def view_log():
+    logs = MissionLog.query.with_entities(MissionLog.timestamp).distinct().all()
+
+    return render_template('home/mission_log.html', logs=logs)
+
 
 
 

@@ -65,7 +65,18 @@ class Mission(db.Model):
 
     plan_id = db.Column(db.Integer, db.ForeignKey('plan.id'))
     plan = db.relationship('Plan', back_populates='missions')
+    logs = db.relationship('MissionLog', back_populates='mission')
 
+
+class MissionLog(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    timestamp = db.Column(db.TIMESTAMP, default=datetime.utcnow, index=True)
+    date_id = db.Column(db.String)
+    completed_mission = db.Column(db.Integer)
+    used_time = db.Column(db.Float)
+
+    mission_id = db.Column(db.Integer, db.ForeignKey('mission.id'))
+    mission = db.relationship('Mission', back_populates='logs')
 
 
 

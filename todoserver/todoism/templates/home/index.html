@@ -5,8 +5,10 @@ Home
 {% block content %}
     <div class="index">
         <h2>daily mission</h2>
-    <section>
-        <div>今日任务数12个，计划用时10小时</div>
+        {% if missions %}
+        <p><a href="{{ url_for('.view_log')}}">view log</a></p>
+        <section>
+        <div>今日任务数{{missions|length}}个，需要用时 {{total_time}}小时</div>
         <form action="{{ url_for('.index')}}" method="post" enctype="application/x-www-form-urlencoded">
 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
             {% for mission in missions %}
@@ -26,7 +28,7 @@ Home
             </tr>
             <tr>
                 <th>每天任务数(计划/实际)</th>
-                <td>{{mission.daily_missions}} / <input type="text" value="{{mission.daily_missions}}" name="day_completed_mission[]"></td>
+                <td>{{mission.daily_missions}} / <input type="text" value="{{mission.daily_missions}}" name="day_completed_mission[]"> {{ mission.unit }}</td>
             </tr>
             <tr>
                 <th>用时(计划/实际)</th>
@@ -39,5 +41,8 @@ Home
         </form>
 
     </section>
+        {% else %}
+            <p>暂时还没计划任务</p>
+        {% endif %}
     </div>
 {% endblock %}
