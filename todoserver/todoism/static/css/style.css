@@ -3,24 +3,6 @@ ul, li {
   margin: 0;
   padding: 0; }
 
-.nav {
-  background: #3399ff;
-  color: #ffffff;
-  height: 60px; }
-  .nav .left a, .nav .right a {
-    display: inline-block;
-    line-height: 60px; }
-  .nav > a {
-    display: inline-block;
-    line-height: 60px; }
-  .nav a {
-    color: #ffffff; }
-  .nav .right > div {
-    display: inline-block; }
-  .nav .right li {
-    display: inline-block;
-    padding: 0 5px; }
-
 .left {
   float: left; }
 
@@ -39,5 +21,7 @@ ul, li {
 
 .index th, .index td {
   padding: 10px; }
+.index .wrap-btn {
+  margin-top: 30px; }
 
 /*# sourceMappingURL=style.css.map */

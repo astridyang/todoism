@@ -1,4 +1,5 @@
 from datetime import datetime
+import time
 from todoism.extensions import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
@@ -65,18 +66,28 @@ class Mission(db.Model):
 
     plan_id = db.Column(db.Integer, db.ForeignKey('plan.id'))
     plan = db.relationship('Plan', back_populates='missions')
-    logs = db.relationship('MissionLog', back_populates='mission')
+    logs = db.relationship('Log', back_populates='mission')
 
 
 class MissionLog(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    timestamp = db.Column(db.TIMESTAMP, default=datetime.utcnow, index=True)
-    date_id = db.Column(db.String)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
+    log_id = db.Column(db.Integer)
+    logs = db.relationship('Log', back_populates='mission_log')
+
+
+class Log(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
     completed_mission = db.Column(db.Integer)
     used_time = db.Column(db.Float)
 
+    mission_log_id = db.Column(db.Integer, db.ForeignKey('mission_log.log_id'))
+    mission_log = db.relationship('MissionLog', back_populates='logs')
+
     mission_id = db.Column(db.Integer, db.ForeignKey('mission.id'))
     mission = db.relationship('Mission', back_populates='logs')
+
 
 
 

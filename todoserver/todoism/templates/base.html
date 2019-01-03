@@ -1,3 +1,4 @@
+{% from 'bootstrap/nav.html' import render_nav_item %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -15,37 +16,54 @@
 
 </head>
 <body>
-    {% block nav %}
-        <nav class="nav">
-            <div class="wraper">
-                <div class="left">
-                <a href="/">Home</a>
-            </div>
-            <div class="right">
-                {% if current_user.is_authenticated %}
-                <div class="new">
-                    <ul>
-                        <li><a href="{{url_for('admin.new_category')}}">new category</a></li>
-                        <li><a href="{{url_for('admin.new_plan')}}">new plan</a></li>
-                        <li><a href="{{url_for('admin.new_mission')}}">new mission</a></li>
-                    </ul>
-                </div>
-                <div class="manage">
-                    <ul>
-                        <li><a href="{{url_for('admin.manage_category')}}">manage category</a></li>
-                        <li><a href="{{url_for('admin.manage_plan')}}">manage plan</a></li>
-                        <li><a href="{{url_for('admin.manage_mission')}}">manage mission</a></li>
-                    </ul>
-                </div>
+{% block nav %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
+                    aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                <ul class="navbar-nav mr-auto">
+                    {{ render_nav_item('mission.index', 'Home') }}
+                </ul>
 
-                <a href="{{url_for('auth.logout')}}">Log out</a>
-                {% else %}
-                <a href="{{url_for('auth.login')}}">Log in</a>
-                {% endif %}
+                <ul class="nav navbar-nav navbar-right">
+                    {% if current_user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-haspopup="true"
+                               aria-expanded="false">
+                                New <span class="caret"></span>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ url_for('admin.new_category') }}">Category</a>
+                                <a class="dropdown-item" href="{{ url_for('admin.new_plan') }}">Plan</a>
+                                <a class="dropdown-item" href="{{ url_for('admin.new_mission') }}">Mission</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-haspopup="true"
+                               aria-expanded="false">
+                                Manage <span class="caret"></span>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ url_for('admin.manage_category') }}">Category</a>
+                                <a class="dropdown-item" href="{{ url_for('admin.manage_plan') }}">Plan</a>
+                                <a class="dropdown-item" href="{{ url_for('admin.manage_mission') }}">Mission</a>
+                            </div>
+                        </li>
+                        <li class="nav-item"><a class="nav-item nav-link" href="{{ url_for('auth.logout', next=request.full_path) }}">Logout</a></li>
+                        {% else %}
+                        <li class="nav-item"><a class="nav-item nav-link" href="{{ url_for('auth.login', next=request.full_path) }}">Login</a></li>
+                    {% endif %}
+                </ul>
             </div>
-            </div>
-        </nav>
-    {% endblock nav%}
+        </div>
+    </nav>
+{% endblock nav %}
+
     {% for message in get_flashed_messages(with_categories=True) %}
         <div class="alert alert-{{ message[0] }}" role="alert">
             <button type="button" class="close" data-dismiss="alert">&times;</button>

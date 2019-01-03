@@ -1,8 +1,10 @@
 from flask import Blueprint, render_template, current_app, request, flash
 from flask_login import login_required
-from ..models import Mission, Category, Plan, MissionLog
+from ..models import Mission, Category, Plan, MissionLog, Log
 from ..utils import redirect_back
 from ..extensions import db
+import time
+from datetime import datetime
 mission_bp = Blueprint('mission', __name__)
 
 
@@ -13,18 +15,33 @@ def index():
         ids = request.form.getlist('id[]')
         missions = request.form.getlist('day_completed_mission[]')
         hours = request.form.getlist('day_used_hour[]')
-        for i in ids:
-            mission = Mission.query.get_or_404(i)
-            completed_mission = int(missions[ids.index(i)])
-            used_time = float(hours[ids.index(i)])
-            mission.completed_missions += completed_mission
-            mission.total_used_hours += used_time
-
-            mission_log = MissionLog(mission=mission, completed_mission=completed_mission, used_time=used_time)
+        now = datetime.utcnow()
+        log_id = int(now.strftime("%Y%m%d"))
+        # log_id = int(now.strftime("%Y%m%d%H%M%S"))
+        mission_log = MissionLog.query.filter(MissionLog.log_id == log_id).first()
+        if mission_log:
+            flash('One day can only submit once', 'warning')
+            return redirect_back()
+        else:
+            mission_log = MissionLog(log_id=log_id)
             db.session.add(mission_log)
             db.session.commit()
-        flash('submit success', 'success')
-        return redirect_back()
+            for i in ids:
+                mission = Mission.query.get_or_404(i)
+                completed_mission = int(missions[ids.index(i)])
+                used_time = float(hours[ids.index(i)])
+                mission.completed_missions += completed_mission
+                # if completed
+                if mission.completed_missions >= mission.total_missions:
+                    mission.is_completed = 1
+                mission.total_used_hours += used_time
+
+                log = Log(completed_mission=completed_mission, used_time=used_time,
+                          mission_log=mission_log, mission=mission)
+                db.session.add(log)
+                db.session.commit()
+            flash('submit success', 'success')
+            return redirect_back()
     else:
         missions = Mission.query.filter(Mission.is_completed == 0).all()
         total_time = 0.0
@@ -58,9 +75,19 @@ def show_plan(plan_id):
 @mission_bp.route('/view_log')
 @login_required
 def view_log():
-    logs = MissionLog.query.with_entities(MissionLog.timestamp).distinct().all()
+    page = request.args.get('page', 1, type=int)
+    per_page = current_app.config['TODOISM_ITEM_PER_PAGE']
+    pagination = MissionLog.query.order_by(MissionLog.timestamp.desc()).paginate(page, per_page=per_page)
+    items = pagination.items
+    return render_template('home/log.html', items=items, pagination=pagination)
 
-    return render_template('home/mission_log.html', logs=logs)
+
+@mission_bp.route('/view_mission_log/<int:mission_id>')
+@login_required
+def view_mission_log(mission_id):
+    logs = Log.query.filter(Log.mission_id == mission_id).all()
+    mission = Mission.query.filter(Mission.id == mission_id).first()
+    return render_template('home/mission_log.html', logs=logs, mission=mission)
 
 
 

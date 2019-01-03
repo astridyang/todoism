@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% from 'bootstrap/pagination.html' import render_pager %}
+{% block title %}
+Log
+{% endblock title%}
+{% block content %}
+<div class="mission_log">
+    <h2>Log</h2>
+    <ul>
+        {% for item in items %}
+        <li>
+            <h4>{{moment(item.timestamp).format('ll')}}</h4>
+            {% for log in item.logs %}
+            <p><a href="{{ url_for('mission.view_mission_log', mission_id=log.mission.id)}}">{{log.mission.name}}</a>：完成{{log.completed_mission}}/用时{{log.used_time}}
+            </p>
+            {% endfor %}
+        </li>
+        {% endfor %}
+    </ul>
+    {% if items %}
+    <div class="page-footer">{{ render_pager(pagination) }}</div>
+    {% endif %}
+</div>
+{% endblock %}

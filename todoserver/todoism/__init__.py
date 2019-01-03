@@ -7,7 +7,7 @@ from todoism.extensions import db, migrate, bootstrap, login_manager, csrf, mome
 from todoism.blueprints.auth import auth_bp
 from todoism.blueprints.mission import mission_bp
 from todoism.blueprints.admin import admin_bp
-from todoism.models import Admin, Category, Plan, Mission
+from todoism.models import Admin, Category, Plan, Mission, MissionLog, Log
 
 
 def create_app(config_name=None):
@@ -103,6 +103,6 @@ def register_commands(app):
 def register_shell_context(app):
     @app.shell_context_processor
     def make_shell_context():
-        return dict(db=db, Admin=Admin, Mission=Mission, Category=Category, Plan=Plan)
+        return dict(db=db, Admin=Admin, Mission=Mission, Category=Category, Plan=Plan, MissionLog=MissionLog, Log=Log)
 
 
