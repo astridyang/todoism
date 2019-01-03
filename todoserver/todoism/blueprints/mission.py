@@ -44,10 +44,11 @@ def index():
             return redirect_back()
     else:
         missions = Mission.query.filter(Mission.is_completed == 0).all()
+        now = datetime.utcnow()
         total_time = 0.0
         for mission in missions:
             total_time += mission.daily_hours
-        return render_template('home/index.html', missions=missions, total_time=total_time)
+        return render_template('home/index.html', missions=missions, total_time=total_time, now=now)
 
 
 @mission_bp.route('/category/<int:category_id>', methods=['GET', 'POST'])

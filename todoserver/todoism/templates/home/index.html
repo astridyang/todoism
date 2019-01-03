@@ -15,6 +15,11 @@ Home
         <table>
             <tr>
                 <th colspan="2">{{mission.name}} {{ moment(mission.start_at).format('L') }}-{{ moment(mission.end_at).format('L') }}
+                    {% if mission.end_at >= now %}
+                        <span class="normal">正常</span>
+                    {% else %}
+                        <span class="danger">逾期</span>
+                    {% endif %}
                     <input type="text" hidden name="id[]" value="{{mission.id}}">
                 </th>
             </tr>

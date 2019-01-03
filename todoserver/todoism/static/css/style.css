@@ -24,4 +24,10 @@ ul, li {
 .index .wrap-btn {
   margin-top: 30px; }
 
+.normal {
+  color: #92d050; }
+
+.danger {
+  color: red; }
+
 /*# sourceMappingURL=style.css.map */
