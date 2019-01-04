@@ -30,4 +30,19 @@ ul, li {
 .danger {
   color: red; }
 
+.completed {
+  display: inline-block;
+  vertical-align: top;
+  font-size: 30px;
+  line-height: 1; }
+
+.blue {
+  color: lightskyblue; }
+
+.deep-blue {
+  color: deepskyblue; }
+
+.mission-name {
+  font-weight: bold; }
+
 /*# sourceMappingURL=style.css.map */

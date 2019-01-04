@@ -76,7 +76,11 @@ def new_plan():
 @admin_bp.route('/plan/manage')
 @login_required
 def manage_plan():
-    return render_template('admin/manage_plan.html')
+    page = request.args.get('page', 1, type=int)
+    per_page = current_app.config['TODOISM_ITEM_PER_PAGE']
+    pagination = Plan.query.order_by(Plan.created_at.desc()).paginate(page=page, per_page=per_page)
+    plans = pagination.items
+    return render_template('admin/manage_plan.html', plans=plans, pagination=pagination, page=page)
 
 
 @admin_bp.route('/plan/<int:plan_id>/edit', methods=['GET', 'POST'])
@@ -137,7 +141,11 @@ def new_mission():
 @admin_bp.route('/mission/manage')
 @login_required
 def manage_mission():
-    return render_template('admin/manage_mission.html')
+    page = request.args.get('page', 1, type=int)
+    per_page = current_app.config['TODOISM_ITEM_PER_PAGE']
+    pagination = Mission.query.order_by(Mission.created_at.desc()).paginate(page=page, per_page=per_page)
+    missions = pagination.items
+    return render_template('admin/manage_mission.html', missions=missions, pagination=pagination, page=page)
 
 
 @admin_bp.route('/mission/<int:mission_id>/edit', methods=['GET', 'POST'])

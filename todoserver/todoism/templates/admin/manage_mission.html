@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% from 'bootstrap/pagination.html' import render_pagination %}
 {% from 'bootstrap/form.html' import render_form %}
 
 {% block title %}Manage Missions{% endblock %}
@@ -16,28 +17,33 @@
     <thead>
     <tr>
         <th>No.</th>
-        <th>Name</th>
-        <th>Belong Plan</th>
         <th>Unit</th>
         <th>Total missions</th>
         <th>Start at</th>
         <th>End at</th>
         <th>Daily hours</th>
+        <th>Total hours</th>
+        <th>Used hours</th>
         <th>Actions</th>
+        <th>Status</th>
     </tr>
     </thead>
     {% for mission in missions %}
     <tr>
-        <td>{{ loop.index }}</td>
-        <td>
-            <a href="">{{ mission.name }}</a>
+        <td colspan="10">
+            <span class="mission-name">{{ mission.name }}</span>
+            <span>&#8680 {{ mission.plan.name}}</span>
         </td>
-        <td>{{ mission.plan.name}}</td>
+    </tr>
+    <tr>
+        <td>{{ loop.index }}</td>
         <td>{{ mission.unit }}</td>
         <td>{{ mission.total_missions }}</td>
         <td>{{ moment(mission.start_at).format('L') }}</td>
         <td>{{ moment(mission.end_at).format('L') }}</td>
         <td>{{ mission.daily_hours }}</td>
+        <td>{{ mission.total_hours }}</td>
+        <td>{{ mission.total_used_hours }}</td>
         <td>
             <a class="btn btn-info btn-sm"
                href="{{ url_for('.edit_mission', mission_id=mission.id)}}">Edit</a>
@@ -49,20 +55,21 @@
                         onclick="return confirm('Are you sure?');">Delete
                 </button>
             </form>
-            {% if mission.is_completed == 0 %}
-            <form class="inline" method="post"
-                  action="{{ url_for('.complete_mission', mission_id=mission.id)}}">
-                <button class="btn btn-sm btn-primary">Completed</button>
-            </form>
+
+        </td>
+        <td class="text-center">
+            {% if mission.is_completed == 1 %}
+           <span class="normal completed">&#10084</span>
+            {% elif mission.end_at < now %}
+            <span class="danger">Overdue</span>
             {% else %}
-            <span>Completed</span>
+            <span class="blue">Normal</span>
             {% endif %}
         </td>
     </tr>
     {% endfor %}
 </table>
-<p class="text-muted">Tips: Deleting a mission does not delete the article under that mission.
-    The articles under this mission will be moved to the default mission.</p>
+<div class="page-footer">{{ render_pagination(pagination) }}</div>
 {% else %}
 <div class="tip"><h5>No missions.</h5></div>
 {% endif %}

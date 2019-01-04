@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% from 'bootstrap/pagination.html' import render_pagination %}
 {% from 'bootstrap/form.html' import render_form %}
 
 {% block title %}Manage Plans{% endblock %}
@@ -43,8 +44,7 @@
                 </tr>
             {% endfor %}
         </table>
-        <p class="text-muted">Tips: Deleting a plan does not delete the article under that plan.
-            The articles under this plan will be moved to the default plan.</p>
+        <div class="page-footer">{{ render_pagination(pagination) }}</div>
     {% else %}
         <div class="tip"><h5>No plans.</h5></div>
     {% endif %}
