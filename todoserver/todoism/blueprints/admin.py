@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from flask import Blueprint, flash, redirect, url_for, render_template, request, current_app
 from flask_login import login_required, current_user
 from ..forms import CategoryForm, PlanForm, MissionForm
@@ -124,7 +125,7 @@ def new_mission():
             flash('End at is invalid', 'warning')
         else:
             daily_hours = form.daily_hours.data
-            total_days = (end_at - start_at).days
+            total_days = (end_at - start_at).days + 1
             daily_missions = math.ceil(total_missions / total_days)
             total_hours = daily_hours * total_days
             mission = Mission(name=name, plan=plan, unit=unit, total_missions=total_missions,
@@ -165,7 +166,7 @@ def edit_mission(mission_id):
         else:
             mission.daily_hours = form.daily_hours.data
             # recalculate
-            mission.total_days = (mission.end_at - mission.start_at).days
+            mission.total_days = (mission.end_at - mission.start_at).days + 1
             mission.daily_missions = math.ceil(mission.total_missions / mission.total_days)
             mission.total_hours = mission.daily_hours * mission.total_days
             db.session.commit()

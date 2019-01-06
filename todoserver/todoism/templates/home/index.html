@@ -14,14 +14,16 @@ Home
             {% for mission in missions %}
         <table>
             <tr>
-                <th colspan="2">{{mission.name}} {{ moment(mission.start_at).format('L') }}-{{ moment(mission.end_at).format('L') }}
-                    {% if mission.end_at >= now %}
+                <th colspan="">
+                    {{mission.name}}<br>
+                    <input type="text" hidden name="id[]" value="{{mission.id}}">
+                </th>
+                <td><span>{{ moment(mission.start_at).format('L') }}-{{ moment(mission.end_at).format('L') }}</span>
+                        {% if mission.end_at >= now %}
                         <span class="normal">正常</span>
                     {% else %}
                         <span class="danger">逾期</span>
-                    {% endif %}
-                    <input type="text" hidden name="id[]" value="{{mission.id}}">
-                </th>
+                    {% endif %}</td>
             </tr>
             <tr>
                 <th>任务数(总/已完成)</th>
