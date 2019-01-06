@@ -164,7 +164,7 @@ def edit_mission(mission_id):
             flash("End at is invalid", 'warning')
         else:
             mission.daily_hours = form.daily_hours.data
-            # 重新计算
+            # recalculate
             mission.total_days = (mission.end_at - mission.start_at).days
             mission.daily_missions = math.ceil(mission.total_missions / mission.total_days)
             mission.total_hours = mission.daily_hours * mission.total_days
