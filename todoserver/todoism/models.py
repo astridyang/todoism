@@ -59,9 +59,11 @@ class Mission(db.Model):
     total_used_hours = db.Column(db.Float, default=0)
     # current completed mission
     completed_missions = db.Column(db.Integer, default=0)
-    # 1 completed
+    # is_completed: 1 yes, 0 no
     is_completed = db.Column(db.Integer, default=0)
     # status = db.Column(db.Integer, default=1)
+    # (1 show, 0 hide) in index.html
+    is_show = db.Column(db.Integer, default=1)
     summary = db.Column(db.TEXT, default='')
 
     plan_id = db.Column(db.Integer, db.ForeignKey('plan.id'))

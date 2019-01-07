@@ -7,7 +7,7 @@ from flask_moment import Moment
 
 
 db = SQLAlchemy()
-migrate = Migrate()
+migrate = Migrate(db=db)
 bootstrap = Bootstrap()
 login_manager = LoginManager()
 csrf = CSRFProtect()

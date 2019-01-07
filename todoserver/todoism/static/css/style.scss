@@ -49,3 +49,11 @@ ul,li{
 .mission-name{
   font-weight: bold;
 }
+.manage-mission{
+  td{
+    input[type=checkbox]{
+      width: 20px;
+      height: 20px;
+    }
+  }
+}

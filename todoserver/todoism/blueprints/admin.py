@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from flask import Blueprint, flash, redirect, url_for, render_template, request, current_app
+from flask import Blueprint, flash, redirect, url_for, render_template, request, current_app, jsonify
 from flask_login import login_required, current_user
 from ..forms import CategoryForm, PlanForm, MissionForm
 from ..models import Category, Plan, Mission
@@ -180,6 +180,26 @@ def edit_mission(mission_id):
     form.end_at.data = mission.end_at
     form.daily_hours.data = mission.daily_hours
     return render_template('admin/new_plan.html', form=form, title="Edit Mission")
+
+
+@admin_bp.route('/toggle_mission_show', methods=['POST'])
+@login_required
+def toggle_mission_show():
+    if request.method == 'POST':
+        mission_id = request.values.get('mission_id', 0)
+        is_show = request.values.get('is_show', 0)
+        mission = Mission.query.get_or_404(mission_id)
+        if is_show == 'false':
+            mission.is_show = 0
+        elif is_show == 'true':
+            mission.is_show = 1
+        db.session.commit()
+        result = {
+            'code': 200,
+            'success': 'true',
+            'msg': 'modify success'
+        }
+        return jsonify(result)
 
 
 @admin_bp.route('/mission/<int:mission_id>/delete', methods=['POST'])

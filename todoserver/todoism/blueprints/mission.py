@@ -34,7 +34,7 @@ def index():
         flash('submit success', 'success')
         return redirect_back()
     else:
-        missions = Mission.query.filter(Mission.is_completed == 0).all()
+        missions = Mission.query.filter((Mission.is_completed == 0) & (Mission.is_show == 1)).all()
         total_time = 0.0
         for mission in missions:
             total_time += mission.daily_hours

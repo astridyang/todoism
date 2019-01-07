@@ -5,6 +5,7 @@ from wtforms.validators import DataRequired, Length
 from todoism.models import Category, Plan
 from datetime import datetime
 
+
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(1, 20)])
     password = PasswordField('Password', validators=[DataRequired(), Length(1, 128)])

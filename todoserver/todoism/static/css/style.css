@@ -45,4 +45,8 @@ ul, li {
 .mission-name {
   font-weight: bold; }
 
+.manage-mission td input[type=checkbox] {
+  width: 20px;
+  height: 30px; }
+
 /*# sourceMappingURL=style.css.map */
