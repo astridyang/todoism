@@ -23,8 +23,13 @@ ul, li {
 
 .index th, .index td {
   padding: 10px; }
+.index td input {
+  width: 60px; }
 .index .wrap-btn {
-  margin-top: 30px; }
+  padding-left: 10px;
+  margin-top: 10px; }
+  .index .wrap-btn button {
+    border-radius: 5px; }
 
 .normal {
   color: #92d050; }
@@ -51,10 +56,11 @@ ul, li {
   width: 20px;
   height: 20px; }
 
-.index td input {
-  width: 60px; }
-
 .mission-name {
-  color: deepskyblue; }
+  background: #e03997;
+  color: #ffffff;
+  display: inline-block;
+  border-radius: 10px;
+  padding: 0 10px; }
 
 /*# sourceMappingURL=style.css.map */
