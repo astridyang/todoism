@@ -11,7 +11,9 @@ ul,li{
   float: right;
 }
 .wraper{
+  box-sizing: border-box;
   width: 1000px;
+  padding:0 10px 30px;
   margin:0 auto;
 }
 .main{
@@ -56,4 +58,14 @@ ul,li{
       height: 20px;
     }
   }
+}
+.index{
+  td{
+    input{
+      width: 60px;
+    }
+  }
+}
+.mission-name{
+  color: deepskyblue;
 }

@@ -15,7 +15,7 @@ Home
         <table>
             <tr>
                 <th colspan="">
-                    {{mission.name}}<br>
+                    <span class="mission-name">{{mission.name}}</span><br>
                     <input type="text" hidden name="id[]" value="{{mission.id}}">
                 </th>
                 <td><span>{{ moment(mission.start_at).format('L') }}-{{ moment(mission.end_at).format('L') }}</span>
