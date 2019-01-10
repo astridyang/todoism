@@ -124,13 +124,13 @@ def new_mission():
         if end_at < start_at:
             flash('End at is invalid', 'warning')
         else:
-            daily_hours = form.daily_hours.data
+            daily_times = form.daily_times.data
             total_days = (end_at - start_at).days + 1
             daily_missions = math.ceil(total_missions / total_days)
-            total_hours = daily_hours * total_days
+            total_times = daily_times * total_days
             mission = Mission(name=name, plan=plan, unit=unit, total_missions=total_missions,
-                              start_at=start_at, end_at=end_at, daily_hours=daily_hours,
-                              daily_missions=daily_missions, total_hours=total_hours,
+                              start_at=start_at, end_at=end_at, daily_times=daily_times,
+                              daily_missions=daily_missions, total_times=total_times,
                               total_days=total_days)
             db.session.add(mission)
             db.session.commit()
@@ -164,11 +164,11 @@ def edit_mission(mission_id):
         if mission.end_at < mission.start_at:
             flash("End at is invalid", 'warning')
         else:
-            mission.daily_hours = form.daily_hours.data
+            mission.daily_times = form.daily_times.data
             # recalculate
             mission.total_days = (mission.end_at - mission.start_at).days + 1
             mission.daily_missions = math.ceil(mission.total_missions / mission.total_days)
-            mission.total_hours = mission.daily_hours * mission.total_days
+            mission.total_times = mission.daily_times * mission.total_days
             db.session.commit()
             flash('Mission updated.', 'success')
             return redirect(url_for('.manage_mission'))
@@ -178,7 +178,7 @@ def edit_mission(mission_id):
     form.total_missions.data = mission.total_missions
     form.start_at.data = mission.start_at
     form.end_at.data = mission.end_at
-    form.daily_hours.data = mission.daily_hours
+    form.daily_times.data = mission.daily_times
     return render_template('admin/new_plan.html', form=form, title="Edit Mission")
 
 

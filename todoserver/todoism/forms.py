@@ -40,7 +40,7 @@ class MissionForm(FlaskForm):
     total_missions = IntegerField('Total missions', validators=[DataRequired()])
     start_at = DateField('Start at', format='%Y-%m-%d', default=datetime.utcnow(), validators=[DataRequired()])
     end_at = DateField('End at', format='%Y-%m-%d', default=datetime.utcnow(), validators=[DataRequired()])
-    daily_hours = FloatField('Daily hours', validators=[DataRequired()])
+    daily_times = FloatField('Daily times', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
     def __init__(self, *args, **kwargs):

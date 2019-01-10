@@ -10,34 +10,40 @@ mission_bp = Blueprint('mission', __name__)
 @mission_bp.route('/', methods=['GET', 'POST'])
 @login_required
 def index():
+    """Index view.
+
+    if used post method, it receives two array."""
     if request.method == 'POST':
         ids = request.form.getlist('id[]')
         missions = request.form.getlist('day_completed_mission[]')
-        hours = request.form.getlist('day_used_hour[]')
+        times = request.form.getlist('day_used_time[]')
         now = datetime.utcnow()
         log_id = int(now.strftime("%Y%m%d"))
         # log_id = int(now.strftime("%Y%m%d%H%M%S"))
         for i in ids:
-            mission = Mission.query.get_or_404(i)
-            completed_mission = int(missions[ids.index(i)])
-            used_time = float(hours[ids.index(i)])
-            mission.completed_missions += completed_mission
-            # if completed
-            if mission.completed_missions >= mission.total_missions:
-                mission.is_completed = 1
-            mission.total_used_hours += used_time
+            if times[ids.index(i)]:
+                mission = Mission.query.get_or_404(i)
+                completed_mission = int(missions[ids.index(i)])
+                used_time = int(times[ids.index(i)])
+                mission.completed_missions += completed_mission
+                # if completed
+                if mission.completed_missions >= mission.total_missions:
+                    mission.is_completed = 1
+                mission.total_used_times += used_time
 
-            mission_log = MissionLog(log_id=log_id, completed_mission=completed_mission,
-                                     used_time=used_time, mission=mission)
-            db.session.add(mission_log)
-            db.session.commit()
-        flash('submit success', 'success')
+                mission_log = MissionLog(log_id=log_id, completed_mission=completed_mission,
+                                         used_time=used_time, mission=mission)
+                db.session.add(mission_log)
+                db.session.commit()
+                flash('Submit success', 'success')
+            else:
+                flash("Used time can't not be empty", 'warning')
         return redirect_back()
     else:
         missions = Mission.query.filter((Mission.is_completed == 0) & (Mission.is_show == 1)).all()
-        total_time = 0.0
+        total_time = 0
         for mission in missions:
-            total_time += mission.daily_hours
+            total_time += mission.daily_times
         return render_template('home/index.html', missions=missions, total_time=total_time)
 
 

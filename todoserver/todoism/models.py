@@ -53,10 +53,10 @@ class Mission(db.Model):
     total_days = db.Column(db.Integer)
     # daily plan mission
     daily_missions = db.Column(db.Integer)
-    # daily plan hour
-    daily_hours = db.Column(db.Float)
-    total_hours = db.Column(db.Float)
-    total_used_hours = db.Column(db.Float, default=0)
+    # daily plan minutes
+    daily_times = db.Column(db.Integer)
+    total_times = db.Column(db.Integer)
+    total_used_times = db.Column(db.Integer, default=0)
     # current completed mission
     completed_missions = db.Column(db.Integer, default=0)
     # is_completed: 1 yes, 0 no
@@ -76,7 +76,7 @@ class MissionLog(db.Model):
     timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
     log_id = db.Column(db.Integer)
     completed_mission = db.Column(db.Integer)
-    used_time = db.Column(db.Float)
+    used_time = db.Column(db.Integer)
 
     mission_id = db.Column(db.Integer, db.ForeignKey('mission.id'))
     mission = db.relationship('Mission', back_populates='logs')

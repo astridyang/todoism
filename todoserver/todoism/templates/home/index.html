@@ -8,7 +8,7 @@ Home
         <p><a href="{{ url_for('.view_log')}}">view log</a></p>
         {% if missions %}
         <section>
-        <div>今日任务数{{missions|length}}个，需要用时 {{total_time}}小时</div>
+        <div>今日任务数{{missions|length}}个，计划用时 {{total_time}}分钟</div>
         <form action="{{ url_for('.index')}}" method="post" enctype="application/x-www-form-urlencoded">
 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
             {% for mission in missions %}
@@ -31,7 +31,7 @@ Home
             </tr>
             <tr>
                 <th>用时(总/已用)</th>
-                <td>{{mission.total_hours}}/{{mission.total_used_hours}}</td>
+                <td>{{mission.total_times}}/{{mission.total_used_times}}</td>
             </tr>
             <tr>
                 <th>每天任务数(计划/实际)</th>
@@ -39,7 +39,7 @@ Home
             </tr>
             <tr>
                 <th>用时(计划/实际)</th>
-                <td>{{mission.daily_hours}} / <input type="text" value="{{mission.daily_hours}}" name="day_used_hour[]">小时</td>
+                <td>{{mission.daily_times}} / <input type="text" name="day_used_time[]">分钟</td>
             </tr>
         </table>
 {% endfor %}

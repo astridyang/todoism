@@ -19,9 +19,9 @@
         <th>No.</th>
         <th>Unit</th>
         <th>Total missions</th>
-        <th>Daily hours</th>
-        <th>Total hours</th>
-        <th>Used hours</th>
+        <th>Daily times</th>
+        <th>Total times</th>
+        <th>Used times</th>
         <th>Actions</th>
         <th>Status</th>
         <th>Show</th>
@@ -41,9 +41,9 @@
         <td>{{ loop.index }}</td>
         <td>{{ mission.unit }}</td>
         <td>{{ mission.total_missions }}</td>
-        <td>{{ mission.daily_hours }}</td>
-        <td>{{ mission.total_hours }}</td>
-        <td>{{ mission.total_used_hours }}</td>
+        <td>{{ mission.daily_times }}</td>
+        <td>{{ mission.total_times }}</td>
+        <td>{{ mission.total_used_times }}</td>
         <td>
             <a class="btn btn-info btn-sm"
                href="{{ url_for('.edit_mission', mission_id=mission.id)}}">Edit</a>
