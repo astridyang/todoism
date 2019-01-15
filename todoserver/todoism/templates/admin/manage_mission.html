@@ -59,7 +59,7 @@
         <td class="text-center">
             {% if mission.is_completed == 1 %}
            <span class="normal completed">&#10084</span>
-            {% elif mission.end_at < now %}
+            {% elif mission.end_at.day - now.day < 0 %}
             <span class="danger">Overdue</span>
             {% else %}
             <span class="blue">Normal</span>

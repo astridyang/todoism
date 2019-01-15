@@ -18,8 +18,9 @@ Home
                     <span class="mission-name">{{mission.name}}</span><br>
                     <input type="text" hidden name="id[]" value="{{mission.id}}">
                 </th>
-                <td><span>{{ moment(mission.start_at).format('L') }}-{{ moment(mission.end_at).format('L') }}</span>
-                        {% if mission.end_at >= now %}
+                <td>
+                    <span>{{ mission.start_at.month }}月{{ mission.start_at.day }}日-{{ mission.end_at.month }}月{{ mission.end_at.day }}日</span>
+                        {% if mission.end_at.day - now.day >= 0 %}
                         <span class="normal">正常</span>
                     {% else %}
                         <span class="danger">逾期</span>

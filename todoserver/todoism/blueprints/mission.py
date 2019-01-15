@@ -36,8 +36,6 @@ def index():
                 db.session.add(mission_log)
                 db.session.commit()
                 flash('Submit success', 'success')
-            else:
-                flash("Used time can't not be empty", 'warning')
         return redirect_back()
     else:
         missions = Mission.query.filter((Mission.is_completed == 0) & (Mission.is_show == 1)).all()
