@@ -8,7 +8,8 @@ Mission Log
     <ul>
         {% for log in logs %}
         <li>
-            <p>{{moment(log.timestamp).format('L')}}&emsp;完成{{log.completed_mission}}{{log.mission.unit}}-用时{{log.used_time}}分钟</p>
+            <p>{{moment(log.timestamp).format('L')}}&emsp;完成{{log.completed_mission}}{{log.mission.unit}}-用时
+                {{log.used_time}}分钟</p>
         </li>
         {% endfor %}
     </ul>
