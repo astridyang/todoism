@@ -1,66 +1,85 @@
 ul, li {
   list-style: none;
   margin: 0;
-  padding: 0; }
+  padding: 0;
+}
 
 .left {
-  float: left; }
+  float: left;
+}
 
 .right {
-  float: right; }
+  float: right;
+}
 
 .wraper {
   box-sizing: border-box;
   width: 1000px;
   padding: 0 10px 30px;
-  margin: 0 auto; }
+  margin: 0 auto;
+}
 
 .main {
-  margin-top: 30px; }
+  margin-top: 30px;
+  padding-bottom: 30px;
+}
 
 .inline {
-  display: inline-block; }
+  display: inline-block;
+}
 
 .index th, .index td {
-  padding: 10px; }
+  padding: 10px;
+}
 .index td input {
-  width: 60px; }
+  width: 60px;
+}
 .index .wrap-btn {
   padding-left: 10px;
-  margin-top: 10px; }
-  .index .wrap-btn button {
-    border-radius: 5px; }
+  margin-top: 10px;
+}
+.index .wrap-btn button {
+  border-radius: 5px;
+}
 
 .normal {
-  color: #92d050; }
+  color: #92d050;
+}
 
 .danger {
-  color: red; }
+  color: red;
+}
 
 .completed {
   display: inline-block;
   vertical-align: top;
   font-size: 30px;
-  line-height: 1; }
+  line-height: 1;
+}
 
 .blue {
-  color: lightskyblue; }
+  color: lightskyblue;
+}
 
 .deep-blue {
-  color: deepskyblue; }
+  color: deepskyblue;
+}
 
 .mission-name {
-  font-weight: bold; }
+  font-weight: bold;
+}
 
 .manage-mission td input[type=checkbox] {
   width: 20px;
-  height: 20px; }
+  height: 20px;
+}
 
 .mission-name {
   background: #e03997;
   color: #ffffff;
   display: inline-block;
   border-radius: 10px;
-  padding: 0 10px; }
+  padding: 0 10px;
+}
 
 /*# sourceMappingURL=style.css.map */
