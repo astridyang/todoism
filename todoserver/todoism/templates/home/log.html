@@ -12,8 +12,11 @@ Log
     <ul>
         <li>
             {% for log in item.logs %}
-            <p><a href="{{ url_for('mission.view_mission_log', mission_id=log.mission.id)}}">{{log.mission.name}}</a>：完成{{log.completed_mission}}{{log.mission.unit}}/用时{{log.used_time}}分钟
+            {% if log.mission %}
+            <p><a href="{{ url_for('mission.view_mission_log', mission_id=log.mission.id)}}">{{log.mission.name}}</a>
+                ：完成{{log.completed_mission}}{{log.mission.unit}}/用时{{log.used_time}}分钟
             </p>
+            {% endif %}
             {% endfor %}
         </li>
     </ul>
