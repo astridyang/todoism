@@ -1,0 +1,21 @@
+2012-01-01 open Assets:Bank:ICBC:Consume CNY
+2012-01-01 open Assets:Bank:CCB:Deposit CNY
+2012-01-01 open Liabilities:CreditCards:CMB CNY
+2012-01-01 open Income:YZ:Salary CNY
+2012-01-01 open Income:YZ:LeaveCharge CNY
+2012-01-01 open Income:YZ:Fine CNY
+2012-01-01 open Expenses:FiveInsurance CNY
+2012-01-01 open Expenses:Apparel CNY
+2012-01-01 open Expenses:Food CNY
+2012-01-01 open Expenses:XZ5:Rent CNY
+2012-01-01 open Expenses:Traffic CNY
+2012-01-01 open Expenses:Hospital CNY
+2012-01-01 open Expenses:E2 CNY
+2012-01-01 open Expenses:DailyNeeds CNY
+2012-01-01 open Expenses:Book CNY
+2012-01-01 open Expenses:Subscribe CNY
+2012-01-01 open Equity:OpenBalance CNY
+;2012-01-01 pad Assets:Bank:ICBC:Consume Equity:OpenBalance
+;2012-01-02 balance Assets:Bank:ICBC:Consume 500 CNY
+;2012-01-01 pad Assets:Bank:CCB:Deposit Equity:OpenBalance
+;2012-01-02 balance Assets:Bank:CCB:Deposit 1000 CNY

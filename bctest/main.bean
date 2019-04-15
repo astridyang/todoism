@@ -1,0 +1,6 @@
+option "title" "yoo's beancount"
+option "operating_currency" "CNY"
+
+include "accounts.bean"
+
+include "2019-04.bean"

@@ -1,0 +1,9 @@
+2019-04-15 * "玉米" "ShoolShop"  #breakfast
+	Assets:Bank:ICBC:Consume -3.50 CNY
+	Expenses:Food +3.50 CNY
+
+2019-04-15 * "salary 2019-03"
+	Income:YZ:Salary -1000.00 CNY
+	Income:YZ:LeaveCharge +100.00 CNY
+	Income:YZ:Fine +60.00 CNY
+	Assets:Bank:ICBC:Consume 840.00 CNY
